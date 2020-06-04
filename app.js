@@ -3,20 +3,22 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var mongoose = require('mongoose'); 
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
 
+//Set up mongoose connection
+var mongoose = require('mongoose');
+var mongoDB = 'mongodb://localhost/bntm_database';
 //connect database
-mongoose.connect('mongodb://localhost/bntm_database', {useNewUrlParser: true});
-
-var db = mongoose.connection; 
-db.on('error', console.error.bind(console, 'connection error:')); 
+mongoose.connect(mongoDB, {useNewUrlParser: true});
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function() {
 	console.log('Connection to database established successfully');
+	console.log(db);
 });
 
 // view engine setup
