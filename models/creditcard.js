@@ -2,7 +2,7 @@
 var mongoose = require('mongoose');
 var extend = require('mongoose-schema-extend');
 //var extendSchema = require('mongoose-schema-extend');
-var BankDataSchema = require('./bankdata');
+var BankDataSchema = require('../models//bankdata');
 
 // Define a schema
 var Schema = mongoose.Schema;

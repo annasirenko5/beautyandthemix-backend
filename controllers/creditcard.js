@@ -1,33 +1,83 @@
-var express = require('express');
-var router = express.Router();
+"use strict";
 
-var CreditCard = require('../models/creditcard');
+const CreditCardModel = require('../models/creditcard');
 
-// Display CreditCard create form on GET.
-exports.CreditCard_create_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: CreditCard create GET');
 
-// Handle CreditCard create on POST.
-exports.CreditCard_create_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: CreditCard create POST');
+const create = async (req, res) => {
+    if (Object.keys(req.body).length === 0) return res.status(400).json({
+        error: 'Bad Request',
+        message: 'The request body is empty'
+    });
+
+    try {
+        let creditcard = await CreditCardModel.create(req.body);
+        return res.status(201).json(creditcard)
+    } catch(err) {
+        return res.status(500).json({
+            error: 'Internal server error',
+            message: err.message
+        });
+    }
 };
 
-// Display CreditCard delete form on GET.
-exports.CreditCard_delete_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: CreditCard delete GET');
+const read = async (req, res) => {
+    try {
+        let creditcard = await CreditCardModel.findById(req.params.id).exec();
+
+        if (!creditcard) return res.status(404).json({
+            error: 'Not Found',
+            message: `creditcard not found`
+        });
+
+        return res.status(200).json(creditcard)
+    } catch(err) {
+        return res.status(500).json({
+            error: 'Internal Server Error',
+            message: err.message
+        });
+    }
 };
 
-// Handle CreditCard delete on POST.
-exports.CreditCard_delete_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: CreditCard delete POST');
+const update = async (req, res) => {
+    if (Object.keys(req.body).length === 0) {
+        return res.status(400).json({
+            error: 'Bad Request',
+            message: 'The request body is empty'
+        });
+    }
+
+    try {
+        let creditcard = await CreditCardModel.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true
+        }).exec();
+
+        return res.status(200).json(creditcard);
+    } catch(err) {
+        return res.status(500).json({
+            error: 'Internal server error',
+            message: err.message
+        });
+    }
 };
 
-// Display CreditCard update form on GET.
-exports.CreditCard_update_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: CreditCard update GET');
+const remove = async (req, res) => {
+    try {
+        await CreditCardModel.findByIdAndRemove(req.params.id).exec();
+
+        return res.status(200).json({message: `creditcard with id${req.params.id} was deleted`});
+    } catch(err) {
+        return res.status(500).json({
+            error: 'Internal server error',
+            message: err.message
+        });
+    }
 };
 
-// Handle CreditCard update on POST.
-exports.CreditCard_update_post = function(req, res) {
-    res.send('NOT IMPLEMENTED: CreditCard update POST');
+
+module.exports = {
+    create,
+    read,
+    update,
+    remove
 };

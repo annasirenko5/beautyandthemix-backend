@@ -1,33 +1,83 @@
-var express = require('express');
-var router = express.Router();
+"use strict";
 
-var BankData = require('../models/bankdata');
+const BankDataModel = require('../models/bankdata');
 
-// Display BankData create form on GET.
-exports.BankData_create_get = function(req, res) {
-    res.send('NOT IMPLEMENTED: BankData create GET');
 
-// Handle BankData create on POST.
-    exports.BankData_create_post = function(req, res) {
-        res.send('NOT IMPLEMENTED: BankData create POST');
-    };
+const create = async (req, res) => {
+    if (Object.keys(req.body).length === 0) return res.status(400).json({
+        error: 'Bad Request',
+        message: 'The request body is empty'
+    });
 
-// Display BankData delete form on GET.
-    exports.BankData_delete_get = function(req, res) {
-        res.send('NOT IMPLEMENTED: BankData delete GET');
-    };
+    try {
+        let bankdata = await BankDataModel.create(req.body);
+        return res.status(201).json(bankdata)
+    } catch(err) {
+        return res.status(500).json({
+            error: 'Internal server error',
+            message: err.message
+        });
+    }
+};
 
-// Handle BankData delete on POST.
-    exports.BankData_delete_post = function(req, res) {
-        res.send('NOT IMPLEMENTED: BankData delete POST');
-    };
+const read = async (req, res) => {
+    try {
+        let bankdata = await BankDataModel.findById(req.params.id).exec();
 
-// Display BankData update form on GET.
-    exports.BankData_update_get = function(req, res) {
-        res.send('NOT IMPLEMENTED: BankData update GET');
-    };
+        if (!bankdata) return res.status(404).json({
+            error: 'Not Found',
+            message: `bankdata not found`
+        });
 
-// Handle BankData update on POST.
-    exports.BankData_update_post = function(req, res) {
-        res.send('NOT IMPLEMENTED: BankData update POST');
-    };
+        return res.status(200).json(bankdata)
+    } catch(err) {
+        return res.status(500).json({
+            error: 'Internal Server Error',
+            message: err.message
+        });
+    }
+};
+
+const update = async (req, res) => {
+    if (Object.keys(req.body).length === 0) {
+        return res.status(400).json({
+            error: 'Bad Request',
+            message: 'The request body is empty'
+        });
+    }
+
+    try {
+        let bankdata = await BankDataModel.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true
+        }).exec();
+
+        return res.status(200).json(bankdata);
+    } catch(err) {
+        return res.status(500).json({
+            error: 'Internal server error',
+            message: err.message
+        });
+    }
+};
+
+const remove = async (req, res) => {
+    try {
+        await BankDataModel.findByIdAndRemove(req.params.id).exec();
+
+        return res.status(200).json({message: `bankdata with id${req.params.id} was deleted`});
+    } catch(err) {
+        return res.status(500).json({
+            error: 'Internal server error',
+            message: err.message
+        });
+    }
+};
+
+
+module.exports = {
+    create,
+    read,
+    update,
+    remove
+};
