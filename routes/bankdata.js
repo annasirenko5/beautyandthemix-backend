@@ -3,14 +3,14 @@
 const express  = require('express');
 const router   = express.Router();
 
-const middlewares    = require('../middlewares');
-const BankDataController = require('../controllers/bankdata');
+const bankdata_controller = require('../controllers/bankdataController');
 
 
-router.post('/', middlewares.checkAuthentication, BankDataController.create); // Create a new BankData
-router.get('/:id', BankDataController.read); // Read a BankData by Id
-router.put('/:id', middlewares.checkAuthentication, BankDataController.update); // Update a BankData by Id
-router.delete('/:id', middlewares.checkAuthentication, BankDataController.remove); // Delete a BankData by Id
+router.get('/', bankdata_controller.list); // List all BankData
+router.post('/', bankdata_controller.create); // Create a new BankData
+router.get('/:id', bankdata_controller.read); // Read a BankData by Id
+router.put('/:id', bankdata_controller.update); // Update a BankData by Id
+router.delete('/:id', bankdata_controller.remove); // Delete a BankData by Id
 
 
 module.exports = router;
