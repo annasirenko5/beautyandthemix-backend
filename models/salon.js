@@ -12,6 +12,9 @@ var SalonSchema = new Schema({
         ref: 'Address',
         required: true
     },
+    // services: {
+    //     type: [Schema.Types.ObjectId],
+    // },
     owner_first_name: {
         type: String,
         max: 100
