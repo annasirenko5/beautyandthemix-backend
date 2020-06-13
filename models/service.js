@@ -9,6 +9,7 @@ var ServiceSchema = new Schema({
     },
     type: {
         type: String,
+        enum: ['Friseur', 'Nägel', 'Massage', 'Kosmetik', 'Männer'],
         required: true
     },
     description: {
