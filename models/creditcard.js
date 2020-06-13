@@ -28,12 +28,5 @@ var Schema = mongoose.Schema;
 
 }));
 
-// Virtual for creditcard's URL
-CreditCardSchema
-    .virtual('url')
-    .get(function () {
-        return '/creditcard/' + this._id;
-    });
-
 // Export function to create "CreditCard" model class
 module.exports = mongoose.model('CreditCard');

@@ -9,6 +9,7 @@ var userRouter = require('./routes/user');
 var salonRouter = require('./routes/salon');
 var addressRouter = require('./routes/address');
 var bankdataRouter = require('./routes/bankdata');
+var creditcardRouter = require('./routes/creditcard');
 var eventRouter = require('./routes/event');
 var subscriptionRouter = require('./routes/subscription');
 
@@ -41,6 +42,7 @@ app.use('/user', userRouter);
 app.use('/salon', salonRouter);
 app.use('/address', addressRouter);
 app.use('/bankdata', bankdataRouter);
+app.use('/creditcard', creditcardRouter);
 app.use('/event', eventRouter);
 app.use('/subscription', subscriptionRouter);
 
