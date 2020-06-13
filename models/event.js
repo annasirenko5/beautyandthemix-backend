@@ -4,6 +4,10 @@ var Schema = mongoose.Schema;
 
 var EventSchema = new Schema({
     // format "dd/MM/yyyy hh:mm TT"
+    service: {
+        type: Schema.Types.ObjectId,
+        ref: 'Service'
+    },
     timeStart: {
         type: Date ,
         required: true

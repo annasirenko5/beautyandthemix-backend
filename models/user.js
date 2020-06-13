@@ -35,7 +35,12 @@ var UserSchema = new Schema({
     },
     profilePicture: {
         type: String
-    }
+    },
+    subscription: {
+        type: Schema.Types.ObjectId,
+        ref: 'Subscription',
+        required: true
+    },
 });
 
 // Virtual for salon's URL

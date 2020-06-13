@@ -12,9 +12,10 @@ var SalonSchema = new Schema({
         ref: 'Address',
         required: true
     },
-    // services: {
-    //     type: [Schema.Types.ObjectId],
-    // },
+    services: [{
+        type: Schema.Types.ObjectId,
+        ref: "Service"
+    }],
     owner_first_name: {
         type: String,
         max: 100
@@ -26,7 +27,14 @@ var SalonSchema = new Schema({
     owner_phone: {
         type: String,
         match: /^(\+)?[0-9]+/
-    }
+    },
+    logo: {
+        type: String
+    },
+    reviews: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Feedback'
+    }]
 });
 
 // Virtual for owner's full name

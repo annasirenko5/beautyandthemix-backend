@@ -3,6 +3,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ServiceSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+    },
     type: {
         type: String,
         required: true
@@ -19,6 +23,10 @@ var ServiceSchema = new Schema({
         type: Number,
         required: true
     },
+    salon: {
+        type: Schema.Types.ObjectId,
+        ref: 'Salon'
+    },
     reviews: [{
         type: Schema.Types.ObjectId,
         ref: 'Feedback'
@@ -26,7 +34,7 @@ var ServiceSchema = new Schema({
 });
 
 // Virtual for salon's URL
-ServcieSchema
+ServiceSchema
     .virtual('url')
     .get(function () {
         return '/service/' + this._id;

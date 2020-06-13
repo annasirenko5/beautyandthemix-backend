@@ -17,8 +17,12 @@ var FeedbackSchema = new Schema({
     creationDate: {
         type: Date,
         required: true
+    },
+    by_user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
-
 });
 
 // Export function to create "Feedback" model class

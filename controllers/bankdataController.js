@@ -4,7 +4,7 @@ const BankDataModel = require('../models/bankdata');
 
 const list = async(req, res) => {
     try{
-        let addresses = await BankDataModel.find({}).exec();
+        let bankdata = await BankDataModel.find({}).exec();
 
         return res.status(200).json(bankdata);
     } catch (e) {

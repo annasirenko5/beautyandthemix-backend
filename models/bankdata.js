@@ -10,8 +10,7 @@ var BankDataSchema = new Schema({
     // subscription payment takes place internally within PayPal
     // therefore, only save information whether payment takes place with paypal or credit card (then also save cc data)
     paypal: Boolean
-    }
-);
+});
 
 // Virtual for bankdata's URL
 BankDataSchema
