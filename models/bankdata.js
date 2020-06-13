@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 // Define a schema
 var Schema = mongoose.Schema;
 
-
 var BankDataSchema = new Schema({
     subsciptionPrice: Number,
     // subscription payment takes place internally within PayPal

@@ -7,7 +7,8 @@ var BankDataSchema = require('../models//bankdata');
 // Define a schema
 var Schema = mongoose.Schema;
 
- var CreditCardSchema  = BankDataSchema.extend({
+// use BankData as Base Schema and extend it with CreditCard parameters
+ var CreditCardSchema  = BankDataSchema.discriminator('CreditCard', new mongoose.Schema({
     cardHolderName: {
         type: String,
         required: true
@@ -25,7 +26,7 @@ var Schema = mongoose.Schema;
         required: true
     }
 
-});
+}));
 
 // Virtual for creditcard's URL
 CreditCardSchema
@@ -35,4 +36,4 @@ CreditCardSchema
     });
 
 // Export function to create "CreditCard" model class
-module.exports = mongoose.model('CreditCard', CreditCardSchema);
+module.exports = mongoose.model('CreditCard');

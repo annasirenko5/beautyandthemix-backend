@@ -4,7 +4,7 @@ const CreditCardModel = require('../models/creditcard');
 
 const list = async(req, res) => {
     try{
-        let addresses = await CreditCardModel.find({}).exec();
+        let creditcard = await CreditCardModel.find({}).exec();
 
         return res.status(200).json(creditcard);
     } catch (e) {

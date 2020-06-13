@@ -5,7 +5,6 @@ const router   = express.Router();
 
 const bankdata_controller = require('../controllers/bankdataController');
 
-
 router.get('/', bankdata_controller.list); // List all BankData
 router.post('/', bankdata_controller.create); // Create a new BankData
 router.get('/:id', bankdata_controller.read); // Read a BankData by Id

@@ -4,13 +4,13 @@ var router = express.Router();
 var address_controller = require('../controllers/addressController');
 
 // Create
-router.post('/create', address_controller.create);
+router.post('/', address_controller.create);
 
 // Update salon
-router.put('/:id/update', address_controller.update);
+router.put('/:id/', address_controller.update);
 
 // Delete salon
-router.delete('/:id/delete', address_controller.dlt);
+router.delete('/:id/', address_controller.dlt);
 
 // GET all salons
 router.get('/', address_controller.list);

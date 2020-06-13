@@ -4,13 +4,13 @@ var router = express.Router();
 var salon_controller = require('../controllers/salonController');
 
 // Create salon
-router.post('/create', salon_controller.create);
+router.post('/', salon_controller.create);
 
 // Update salon
-router.put('/:id/update', salon_controller.update);
+router.put('/:id/', salon_controller.update);
 
 // Delete salon
-router.delete('/:id/delete', salon_controller.dlt);
+router.delete('/:id/', salon_controller.dlt);
 
 // GET all salons
 router.get('/', salon_controller.list);
