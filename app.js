@@ -12,6 +12,7 @@ var bankdataRouter = require('./routes/bankdata');
 var creditcardRouter = require('./routes/creditcard');
 var eventRouter = require('./routes/event');
 var subscriptionRouter = require('./routes/subscription');
+var authRouter = require('./routes/auth');
 
 var app = express();
 
@@ -45,6 +46,7 @@ app.use('/bankdata', bankdataRouter);
 app.use('/creditcard', creditcardRouter);
 app.use('/event', eventRouter);
 app.use('/subscription', subscriptionRouter);
+app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
