@@ -18,7 +18,9 @@ const create = async (req, res) => {
 };
 
 const read   = async (req, res) => {
-    Feedback.findById(req.params.id).exec()
+    Feedback.findById(req.params.id)
+        .populate('by_user')
+        .exec()
         .then(feedback => {
 
             if (!feedback) return res.status(404).json({
@@ -47,7 +49,9 @@ const remove = async(req, res) => {
 };
 
 const list  = async(req, res) => {
-    Feedback.find({}).exec()
+    Feedback.find({})
+        .populate('by_user')
+        .exec()
         .then(feedbacks => res.status(200).json(feedbacks))
         .catch(error => res.status(500).json({
             error: 'Internal server error',

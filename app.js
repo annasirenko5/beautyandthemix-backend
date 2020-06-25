@@ -7,11 +7,13 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 var salonRouter = require('./routes/salon');
+var serviceReouter = require('./routes/service');
 var addressRouter = require('./routes/address');
 var bankdataRouter = require('./routes/bankdata');
 var creditcardRouter = require('./routes/creditcard');
 var eventRouter = require('./routes/event');
 var subscriptionRouter = require('./routes/subscription');
+var feedbackRouter = require('./routes/feedback');
 var authRouter = require('./routes/auth');
 
 var app = express();
@@ -41,11 +43,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/salon', salonRouter);
+app.use('/service', serviceReouter);
 app.use('/address', addressRouter);
 app.use('/bankdata', bankdataRouter);
 app.use('/creditcard', creditcardRouter);
 app.use('/event', eventRouter);
 app.use('/subscription', subscriptionRouter);
+app.use('/feedback', feedbackRouter)
 app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler

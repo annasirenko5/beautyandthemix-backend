@@ -1,4 +1,4 @@
-var Service = require('../models/servcie');
+var Service = require('../models/service');
 var Feedback = require('../models/feedback');
 
 const create = async (req, res) => {
@@ -22,9 +22,10 @@ const create = async (req, res) => {
 
 const read = async (req, res) => {
     try {
-        let service = await Service.findById(req.params.id).exec();
-
-        //TODO: read related data from other feedback
+        let service = await Service.findById(req.params.id)
+            .populate('salon')
+            .populate('reviews')
+            .exec();
 
         if (!service) return res.status(404).json({
             error: 'Not Found',
@@ -52,8 +53,7 @@ const update = async (req, res) => {
         let service = await Service.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
             runValidators: true
-        }).exec();
-        //TODO: update related feedbacks
+        }).exec()
         return res.status(200).json(service);
     } catch (e) {
         return res.status(500).json({
@@ -65,9 +65,16 @@ const update = async (req, res) => {
 
 const dlt = async (req, res) => {
     try {
-        // remove data asociated with servcice
-        //TODO: feedbacks delete
-        await Service.findByIdAndRemove(req.params.id).exec();
+        // remove data asociated with service
+        await Service.findByIdAndRemove(req.params.id).exec()
+            .then(service => {
+                Feedback.find({_id: service["reviews"]}).exec()
+                    .then(reviews => {
+                        for (let i = 0; i < reviews.length; i++) {
+                            Feedback.findByIdAndRemove({_id: reviews[i]["_id"]}).exec();
+                        }
+                    })
+            })
 
         return res.status(200).json({message: 'Service with id ' + req.params.id + ' was deleted'});
     } catch (e) {
@@ -80,8 +87,10 @@ const dlt = async (req, res) => {
 
 const list = async(req, res) => {
     try{
-        let services = await Service.find({}).exec();
-        //TODO: read related data from other collections
+        let services = await Service.find({})
+            .populate('salon')
+            .populate('reviews')
+            .exec();
         return res.status(200).json(services);
     } catch (e) {
         return res.status(500).json({
@@ -96,5 +105,5 @@ module.exports = {
     read,
     update,
     dlt,
-    list
+    list,
 };

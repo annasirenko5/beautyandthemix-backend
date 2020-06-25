@@ -1,5 +1,7 @@
 var Salon = require('../models/salon');
 var Address = require('../models/address');
+var Service = require('../models/service');
+var Feedback = require('../models/feedback');
 
 const create = async (req, res) => {
     if(Object.keys(req.body).length === 0) return res.status(400).json({
@@ -28,7 +30,11 @@ const create = async (req, res) => {
 
 const read = async (req, res) => {
     try {
-        let salon = await Salon.findById(req.params.id).exec();
+        let salon = await Salon.findById(req.params.id)
+            .populate('location')
+            .populate('services')
+            .populate('reviews')
+            .exec();
 
         if (!salon) return res.status(404).json({
             error: 'Not Found',
@@ -69,9 +75,22 @@ const update = async (req, res) => {
 
 const dlt = async (req, res) => {
     try {
-        // remove address asociated with salon
-        await Address.findByIdAndRemove(read(req.params.id).location).exec();
-        await Salon.findByIdAndRemove(req.params.id).exec();
+        await Salon.findByIdAndRemove(req.params.id).exec()
+            .then(salon => {
+                Address.findByIdAndRemove({_id: salon.location}).exec();
+                Service.find({_id: salon["services"]}).exec()
+                    .then(services => {
+                        for (let i = 0; i < services.length; i++) {
+                            Service.findByIdAndRemove({_id: services[i]["_id"]}).exec();
+                        }
+                    })
+                Feedback.find({_id: salon["reviews"]}).exec()
+                    .then(reviews => {
+                        for (let i = 0; i < reviews.length; i++) {
+                            Feedback.findByIdAndRemove({_id: reviews[i]["_id"]}).exec();
+                        }
+                    })
+            })
 
         return res.status(200).json({message: 'Salon with id ' + req.params.id + ' was deleted'});
     } catch (e) {
@@ -84,7 +103,11 @@ const dlt = async (req, res) => {
 
 const list = async(req, res) => {
     try{
-        let salons = await Salon.find({}).exec();
+        let salons = await Salon.find({})
+            .populate('location')
+            .populate('services')
+            .populate('reviews')
+            .exec();
 
         return res.status(200).json(salons);
     } catch (e) {

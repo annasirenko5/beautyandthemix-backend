@@ -26,7 +26,8 @@ var UserSchema = new Schema({
     address: {
         type: Schema.Types.ObjectId,
         ref: 'Address',
-        required: true
+        required: true,
+        $cascadeDelete: true,
     },
     bankData: {
         type: Schema.Types.ObjectId,
@@ -43,7 +44,7 @@ var UserSchema = new Schema({
     },
 });
 
-// Virtual for salon's URL
+// Virtual for user's URL
 UserSchema
     .virtual('url')
     .get(function () {
