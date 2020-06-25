@@ -16,6 +16,6 @@ router.delete('/:id/', service_controller.dlt);
 router.get('/', service_controller.list);
 
 // GET service by id
-router.get('/:id', service_controller.read);
+router.get('/:id/', service_controller.read);
 
 module.exports = router;

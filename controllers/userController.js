@@ -1,7 +1,8 @@
 var User = require('../models/user');
 var Address = require('../models/address');
 var Event = require('../models/event');
-var BankData = require('../models/bankdata')
+var BankData = require('../models/bankdata');
+var Subscription = require('../models/subscription');
 
 const create = async (req, res) => {
     if(Object.keys(req.body).length === 0) return res.status(400).json({
@@ -24,9 +25,12 @@ const create = async (req, res) => {
 
 const read = async (req, res) => {
     try {
-        let user = await User.findById(req.params.id).exec();
-
-        //TODO: read related data from other collections
+        let user = await User.findById(req.params.id)
+            .populate('address')
+            .populate('bankData')
+            .populate('bookings')
+            .populate('subscription')
+            .exec();
 
         if (!user) return res.status(404).json({
             error: 'Not Found',
@@ -55,7 +59,6 @@ const update = async (req, res) => {
             new: true,
             runValidators: true
         }).exec();
-        //TODO: update related data from other collections
         return res.status(200).json(user);
     } catch (e) {
         return res.status(500).json({
@@ -67,12 +70,20 @@ const update = async (req, res) => {
 
 const dlt = async (req, res) => {
     try {
-        // remove data asociated with user
-        await Address.findByIdAndRemove(read(req.params.id).address).exec();
-        await BankData.findByIdAndRemove(read(req.params.id).bankData).exec();
-        //TODO: bookings delete
-        await User.findByIdAndRemove(req.params.id).exec();
 
+        await User.findByIdAndRemove(req.params.id).exec()
+            .then(user => {
+                Address.findByIdAndRemove({_id: user.address}).exec();
+                BankData.findByIdAndRemove({_id: user.bankData}).exec();
+                Subscription.findByIdAndRemove({_id: user.subscription}).exec();
+                Event.find({_id: user["bookings"]}).exec()
+                    .then(bookings => {
+                        for (let i = 0; i < bookings.length; i++) {
+                            Event.findByIdAndRemove({_id: bookings[i]["_id"]}).exec();
+                        }
+                    })
+            })
+        
         return res.status(200).json({message: 'User with id ' + req.params.id + ' was deleted'});
     } catch (e) {
         return res.status(500).json({
@@ -84,8 +95,12 @@ const dlt = async (req, res) => {
 
 const list = async(req, res) => {
     try{
-        let users = await User.find({}).exec();
-        //TODO: read related data from other collections
+        let users = await User.find({})
+            .populate('address')
+            .populate('bankData')
+            .populate('bookings')
+            .populate('subscription')
+            .exec();
         return res.status(200).json(users);
     } catch (e) {
         return res.status(500).json({

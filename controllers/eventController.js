@@ -18,7 +18,9 @@ const create = async (req, res) => {
 };
 
 const read   = async (req, res) => {
-    Event.findById(req.params.id).exec()
+    Event.findById(req.params.id)
+        .populate('service')
+        .exec()
         .then(event => {
 
             if (!event) return res.status(404).json({
@@ -64,7 +66,9 @@ const remove = async(req, res) => {
 };
 
 const list  = async(req, res) => {
-    Event.find({}).exec()
+    Event.find({})
+        .populate('service')
+        .exec()
         .then(events => res.status(200).json(events))
         .catch(error => res.status(500).json({
             error: 'Internal server error',
