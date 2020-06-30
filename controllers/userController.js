@@ -110,10 +110,46 @@ const list = async(req, res) => {
     }
 };
 
+const addBooking = async (req, res) => {
+    if (Object.keys(req.body).length === 0) {
+        return res.status(400).json({
+            error: 'Bad Request',
+            message: 'The request body is empty'
+        });
+    }
+
+    try{
+        await User.findById(req.params.id).exec()
+            .then(user => {
+                    if (user.bookings.includes(req.body.bookings)) {
+                        res.status(500).json({
+                            error: 'Internal server error',
+                            message: "User already has this booking"
+                        })
+                    } else {
+                        user.update(req.body).then((upUser) => {
+                                console.log(upUser);
+                                res.status(200).json(upUser)
+                            }
+                        ).catch((err) => console.log(err.message));
+                    }
+                }
+            )
+    }
+    catch (e) {
+        return res.status(500).json({
+            error: 'Internal server error',
+            message: err.message
+        });
+    }
+
+};
+
 module.exports = {
     create,
     read,
     update,
     dlt,
-    list
+    list,
+    addBooking
 };

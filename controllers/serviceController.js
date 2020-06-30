@@ -100,10 +100,46 @@ const list = async(req, res) => {
     }
 };
 
+const addReview = async (req, res) => {
+    if (Object.keys(req.body).length === 0) {
+        return res.status(400).json({
+            error: 'Bad Request',
+            message: 'The request body is empty'
+        });
+    }
+
+    try{
+        await Service.findById(req.params.id).exec()
+            .then(service => {
+                    if (service.reviews.includes(req.body.reviews)) {
+                        res.status(500).json({
+                            error: 'Internal server error',
+                            message: "Service already has this review"
+                        })
+                    } else {
+                        service.update(req.body).then((upService) => {
+                                console.log(upService);
+                                res.status(200).json(upService)
+                            }
+                        ).catch((err) => console.log(err.message));
+                    }
+                }
+            )
+    }
+    catch (e) {
+        return res.status(500).json({
+            error: 'Internal server error',
+            message: err.message
+        });
+    }
+
+}
+
 module.exports = {
     create,
     read,
     update,
     dlt,
     list,
+    addReview,
 };
