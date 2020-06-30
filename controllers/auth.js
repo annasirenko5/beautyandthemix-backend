@@ -47,7 +47,7 @@ const register = async (req,res) => {
         message: 'The request body must contain a password property'
     });
 
-    if (!Object.prototype.hasOwnProperty.call(req.body, 'userName')) return res.status(400).json({
+    if (!Object.prototype.hasOwnProperty.call(req.body, 'username')) return res.status(400).json({
         error: 'Bad Request',
         message: 'The request body must contain a username property'
     });

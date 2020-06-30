@@ -5,13 +5,13 @@ var Schema = mongoose.Schema;
 var UserSchema = new Schema({
     firstName: {
         type: String,
-        required: true
+        //required: true
     },
     lastName: {
         type: String,
-        required: true
+        //required: true
     },
-    userName: {
+    username: {
         type: String,
         required: true
     },
@@ -26,13 +26,13 @@ var UserSchema = new Schema({
     address: {
         type: Schema.Types.ObjectId,
         ref: 'Address',
-        required: true,
+        //required: true,
         $cascadeDelete: true,
     },
     bankData: {
         type: Schema.Types.ObjectId,
         ref: 'BankData',
-        required: true
+        //required: true
     },
     profilePicture: {
         type: String
@@ -40,7 +40,7 @@ var UserSchema = new Schema({
     subscription: {
         type: Schema.Types.ObjectId,
         ref: 'Subscription',
-        required: true
+        //required: true
     },
 });
 
