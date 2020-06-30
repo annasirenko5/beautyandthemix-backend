@@ -118,10 +118,82 @@ const list = async(req, res) => {
     }
 };
 
+const addService = async (req, res) => {
+    if (Object.keys(req.body).length === 0) {
+        return res.status(400).json({
+            error: 'Bad Request',
+            message: 'The request body is empty'
+        });
+    }
+
+    try{
+        await Salon.findById(req.params.id).exec()
+            .then(salon => {
+                    if (salon.services.includes(req.body.services)) {
+                        res.status(500).json({
+                            error: 'Internal server error',
+                            message: "Salon already has this service"
+                        })
+                    } else {
+                        salon.update(req.body).then((upSalon) => {
+                                console.log(upSalon);
+                                res.status(200).json(upSalon)
+                            }
+                        ).catch((err) => console.log(err.message));
+                    }
+                }
+            )
+    }
+    catch (e) {
+        return res.status(500).json({
+            error: 'Internal server error',
+            message: err.message
+        });
+    }
+
+};
+
+const addReview = async (req, res) => {
+    if (Object.keys(req.body).length === 0) {
+        return res.status(400).json({
+            error: 'Bad Request',
+            message: 'The request body is empty'
+        });
+    }
+
+    try{
+        await Salon.findById(req.params.id).exec()
+            .then(salon => {
+                    if (salon.reviews.includes(req.body.reviews)) {
+                        res.status(500).json({
+                            error: 'Internal server error',
+                            message: "Salon already has this review"
+                        })
+                    } else {
+                        salon.update(req.body).then((upSalon) => {
+                                console.log(upSalon);
+                                res.status(200).json(upSalon)
+                            }
+                        ).catch((err) => console.log(err.message));
+                    }
+                }
+            )
+    }
+    catch (e) {
+        return res.status(500).json({
+            error: 'Internal server error',
+            message: err.message
+        });
+    }
+
+}
+
 module.exports = {
     create,
     read,
     update,
     dlt,
-    list
+    list,
+    addService,
+    addReview
 };

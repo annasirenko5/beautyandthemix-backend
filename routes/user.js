@@ -18,4 +18,7 @@ router.get('/', user_controller.list);
 // GET user by id
 router.get('/:id', user_controller.read);
 
+// Add booking
+router.post('/addBookingToUser/:id/', user_controller.addBooking);
+
 module.exports = router;

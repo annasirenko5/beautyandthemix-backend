@@ -18,4 +18,7 @@ router.get('/', service_controller.list);
 // GET service by id
 router.get('/:id/', service_controller.read);
 
+// Add reviews
+router.post('/addReviewToService/:id/', service_controller.addReview);
+
 module.exports = router;
