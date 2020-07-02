@@ -13,13 +13,13 @@ const login = async (req,res) => {
         message: 'The request body must contain a password property'
     });
 
-    if (!Object.prototype.hasOwnProperty.call(req.body, 'userName')) return res.status(400).json({
+    if (!Object.prototype.hasOwnProperty.call(req.body, 'username')) return res.status(400).json({
         error: 'Bad Request',
         message: 'The request body must contain a username property'
     });
 
     try {
-        let user = await User.findOne({userName: req.body.userName}).exec();
+        let user = await User.findOne({username: req.body.username}).exec();
 
         // check if the password is valid
         const isPasswordValid = bcrypt.compareSync(req.body.password, user.password);
@@ -27,7 +27,7 @@ const login = async (req,res) => {
 
         // if user is found and password is valid
         // create a token
-        const token = jwt.sign({id: user._id, userName: user.userName}, config.JwtSecret, {
+        const token = jwt.sign({id: user._id, username: user.username}, config.JwtSecret, {
             expiresIn: 86400 // expires in 24 hours
         });
 
@@ -59,7 +59,7 @@ const register = async (req,res) => {
 
         // if user is registered without errors
         // create a token
-        const token = jwt.sign({id: retUser._id, userName: retUser.userName}, config.JwtSecret, {
+        const token = jwt.sign({id: retUser._id, username: retUser.username}, config.JwtSecret, {
             expiresIn: 86400 // expires in 24 hours
         });
 
@@ -82,7 +82,7 @@ const register = async (req,res) => {
 
 const me = async (req, res) => {
     try {
-        let user = await User.findById(req.userId).select('userName').exec();
+        let user = await User.findById(req.userId).select('username').exec();
 
         if (!user) return res.status(404).json({
             error: 'Not Found',
