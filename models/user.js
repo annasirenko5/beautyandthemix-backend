@@ -26,8 +26,7 @@ var UserSchema = new Schema({
     address: {
         type: Schema.Types.ObjectId,
         ref: 'Address',
-        //required: true,
-        $cascadeDelete: true,
+        //required: true
     },
     bankData: {
         type: Schema.Types.ObjectId,
