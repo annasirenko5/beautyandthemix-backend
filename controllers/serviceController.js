@@ -1,6 +1,8 @@
 var Service = require('../models/service');
 var Feedback = require('../models/feedback');
 
+const serviceSchema = new Service();
+
 const create = async (req, res) => {
     if(Object.keys(req.body).length === 0) return res.status(400).json({
         error: 'Bad Request',
@@ -136,8 +138,8 @@ const addReview = async (req, res) => {
 };
 
 const getByType = async(req, res) => {
-    console.log("REQUEST BODY");
-    console.log(req.params.type);
+    // console.log("REQUEST BODY");
+    // console.log(req.params.type);
     try{
         const serviceList = await Service.find({type: req.params.type})
             .populate('salon')
@@ -160,6 +162,11 @@ const getByType = async(req, res) => {
     }
 };
 
+const getTypes = async(req,res) => {
+    return res.status(200).json(serviceSchema.schema.path('type').enumValues);
+};
+
+
 module.exports = {
     create,
     read,
@@ -167,5 +174,6 @@ module.exports = {
     dlt,
     list,
     addReview,
-    getByType
+    getByType,
+    getTypes,
 };

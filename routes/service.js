@@ -3,6 +3,9 @@ var router = express.Router();
 
 var service_controller = require('../controllers/serviceController');
 
+//GET options for type
+router.get('/options', service_controller.getTypes);
+
 // Create service
 router.post('/', service_controller.create);
 

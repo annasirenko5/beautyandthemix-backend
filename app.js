@@ -9,6 +9,8 @@ var logger = require('morgan');
 // Integrated to prevent option instead of post
 var cors = require('cors');
 
+const middlewares = require("./middlewares");
+
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 var salonRouter = require('./routes/salon');
@@ -45,7 +47,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(cors())
+app.use(cors());
+
+app.use(middlewares.allowCrossDomain);
 
 app.use('/', indexRouter);
 app.use('/user', userRouter);
