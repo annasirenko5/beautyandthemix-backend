@@ -7,7 +7,7 @@ var logger = require('morgan');
 // Preflight request
 // Notifies the server about the type of request it wants to send
 // Integrated to prevent option instead of post
-var cors = require('cors')
+var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');

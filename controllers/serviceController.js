@@ -36,7 +36,7 @@ const read = async (req, res) => {
     } catch (e) {
         return res.status(500).json({
             error: 'Internal Server Error',
-            message: err.message
+            message: e.message
         });
     }
 };
@@ -133,7 +133,32 @@ const addReview = async (req, res) => {
         });
     }
 
-}
+};
+
+const getByType = async(req, res) => {
+    console.log("REQUEST BODY");
+    console.log(req.params.type);
+    try{
+        const serviceList = await Service.find({type: req.params.type})
+            .populate('salon')
+            .populate('reviews')
+            .exec();
+        if(serviceList.length > 0) {
+            return res.status(200).json(serviceList);
+        } else {
+            return res.status(500).json({
+                error: "Internal server error",
+                message: "Services with this type do not exist yet."
+            });
+        }
+    }
+    catch (e) {
+        return res.status(500).json({
+            error: "Internal server error",
+            message: e.message
+        });
+    }
+};
 
 module.exports = {
     create,
@@ -142,4 +167,5 @@ module.exports = {
     dlt,
     list,
     addReview,
+    getByType
 };
