@@ -1,6 +1,8 @@
 var Service = require('../models/service');
 var Feedback = require('../models/feedback');
 
+const serviceSchema = new Service();
+
 const create = async (req, res) => {
     if(Object.keys(req.body).length === 0) return res.status(400).json({
         error: 'Bad Request',
@@ -36,7 +38,7 @@ const read = async (req, res) => {
     } catch (e) {
         return res.status(500).json({
             error: 'Internal Server Error',
-            message: err.message
+            message: e.message
         });
     }
 };
@@ -133,7 +135,37 @@ const addReview = async (req, res) => {
         });
     }
 
-}
+};
+
+const getByType = async(req, res) => {
+    // console.log("REQUEST BODY");
+    // console.log(req.params.type);
+    try{
+        const serviceList = await Service.find({type: req.params.type})
+            .populate('salon')
+            .populate('reviews')
+            .exec();
+        if(serviceList.length > 0) {
+            return res.status(200).json(serviceList);
+        } else {
+            return res.status(500).json({
+                error: "Internal server error",
+                message: "Services with this type do not exist yet."
+            });
+        }
+    }
+    catch (e) {
+        return res.status(500).json({
+            error: "Internal server error",
+            message: e.message
+        });
+    }
+};
+
+const getTypes = async(req,res) => {
+    return res.status(200).json(serviceSchema.schema.path('type').enumValues);
+};
+
 
 module.exports = {
     create,
@@ -142,4 +174,6 @@ module.exports = {
     dlt,
     list,
     addReview,
+    getByType,
+    getTypes,
 };
