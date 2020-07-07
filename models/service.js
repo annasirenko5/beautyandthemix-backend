@@ -12,8 +12,8 @@ var ServiceSchema = new Schema({
         enum: ['Hair', 'Nails', 'Massage', 'Beautician', 'Men'],
         required: true
     },
-    description: {
-        type: String,
+    duration: {
+        type: Number,
         required: true
     },
     points: {

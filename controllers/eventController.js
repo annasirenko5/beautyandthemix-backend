@@ -20,6 +20,7 @@ const create = async (req, res) => {
 const read   = async (req, res) => {
     Event.findById(req.params.id)
         .populate('service')
+        .populate('salon')
         .exec()
         .then(event => {
 
@@ -68,6 +69,7 @@ const remove = async(req, res) => {
 const list  = async(req, res) => {
     Event.find({})
         .populate('service')
+        .populate('salon')
         .exec()
         .then(events => res.status(200).json(events))
         .catch(error => res.status(500).json({

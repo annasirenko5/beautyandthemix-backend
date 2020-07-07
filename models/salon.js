@@ -34,7 +34,10 @@ var SalonSchema = new Schema({
     reviews: [{
         type: Schema.Types.ObjectId,
         ref: 'Feedback'
-    }]
+    }],
+    description: {
+        type: String
+    }
 });
 
 // Virtual for owner's full name
