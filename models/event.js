@@ -15,6 +15,14 @@ var EventSchema = new Schema({
     booked: {
         type: Boolean,
         required: true
+    },
+    worker: {
+        type: String,
+        required: true
+    },
+    salon: {
+        type: Schema.Types.ObjectId,
+        ref: 'Salon'
     }
 });
 
