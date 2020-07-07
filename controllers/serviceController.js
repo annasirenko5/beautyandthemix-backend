@@ -138,11 +138,12 @@ const addReview = async (req, res) => {
 };
 
 const getByType = async(req, res) => {
-    // console.log("REQUEST BODY");
-    // console.log(req.params.type);
     try{
         const serviceList = await Service.find({type: req.params.type})
-            .populate('salon')
+            .populate({
+                path: 'salon',
+                populate: {path: 'location'}
+            })
             .populate('reviews')
             .exec();
         if(serviceList.length > 0) {

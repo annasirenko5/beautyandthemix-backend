@@ -32,7 +32,7 @@ const read = async (req, res) => {
     try {
         let salon = await Salon.findById(req.params.id)
             .populate('location')
-            .populate('services')
+            .populate({path: 'services'})
             .populate('reviews')
             .exec();
 
@@ -90,7 +90,7 @@ const dlt = async (req, res) => {
                             Feedback.findByIdAndRemove({_id: reviews[i]["_id"]}).exec();
                         }
                     })
-            })
+            });
 
         return res.status(200).json({message: 'Salon with id ' + req.params.id + ' was deleted'});
     } catch (e) {
@@ -105,7 +105,7 @@ const list = async(req, res) => {
     try{
         let salons = await Salon.find({})
             .populate('location')
-            .populate('services')
+            .populate({path: 'services'})
             .populate('reviews')
             .exec();
 
@@ -186,7 +186,7 @@ const addReview = async (req, res) => {
         });
     }
 
-}
+};
 
 module.exports = {
     create,
