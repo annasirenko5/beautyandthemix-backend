@@ -41,7 +41,7 @@ const read = async (req, res) => {
     } catch (e) {
         return res.status(500).json({
             error: 'Internal Server Error',
-            message: err.message
+            message: e.message
         });
     }
 };
