@@ -26,7 +26,7 @@ const read   = async (req, res) => {
 
             if (!event) return res.status(404).json({
                 error: 'Not Found',
-                message: `Movie not found`
+                message: `Event not found`
             });
 
             res.status(200).json(event)
@@ -76,12 +76,37 @@ const list  = async(req, res) => {
             error: 'Internal server error',
             message: error.message
         }));
+
+};
+
+const getByService = async(req, res) => {
+    try{
+        const eventList = await Event.find({service: req.params.service})
+            .populate('service')
+            .populate('salon')
+            .exec();
+        if(eventList.length > 0) {
+            return res.status(200).json(eventList);
+        } else {
+            return res.status(500).json({
+                error: "Internal server error",
+                message: "Events with this service do not exist yet."
+            });
+        }
+    }
+    catch (e) {
+        return res.status(500).json({
+            error: "Internal server error",
+            message: e.message
+        });
+    }
 };
 
 module.exports = {
+    list,
     create,
     read,
     update,
     remove,
-    list
+    getByService
 };
