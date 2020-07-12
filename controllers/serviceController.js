@@ -167,6 +167,28 @@ const getTypes = async(req,res) => {
     return res.status(200).json(serviceSchema.schema.path('type').enumValues);
 };
 
+const getBySalon = async(req, res) => {
+    try {
+        const serviceList = await Service.find({salon: req.params.salon})
+            .populate('salon')
+            .populate('reviews')
+            .exec();
+        if (serviceList.length > 0) {
+            return res.status(200).json(serviceList);
+        } else {
+            return res.status(500).json({
+                error: "Internal server error",
+                message: "Services with this salon do not exist yet."
+            });
+        }
+    } catch (e) {
+        return res.status(500).json({
+            error: "Internal server error",
+            message: e.message
+        });
+    }
+};
+
 
 module.exports = {
     create,
@@ -177,4 +199,5 @@ module.exports = {
     addReview,
     getByType,
     getTypes,
+    getBySalon
 };
