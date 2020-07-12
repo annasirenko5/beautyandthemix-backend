@@ -27,6 +27,6 @@ router.post('/addReviewToService/:id/', service_controller.addReview);
 // GET all services
 router.get('/', service_controller.list);
 
-router.get('/bySalon/:salon', service_controller.getBySalon);
+router.get('/getBySalon/:salon', service_controller.getBySalon);
 
 module.exports = router;
