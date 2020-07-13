@@ -10,6 +10,7 @@ router.get('/', subscription_controller.list); // List all subscription
 router.post('/', subscription_controller.create); // Create a new subscription
 router.get('/:id', subscription_controller.read); // Read a subscription by Id
 router.delete('/:id', subscription_controller.remove); // Delete a subscription by Id
+router.put('/:id', subscription_controller.update);
 
 
 module.exports = router;
