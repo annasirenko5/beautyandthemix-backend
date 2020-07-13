@@ -29,7 +29,8 @@ var SalonSchema = new Schema({
         match: /^(\+)?[0-9]+/
     },
     logo: {
-        type: String
+        data: Buffer,
+        contentType: String
     },
     reviews: [{
         type: Schema.Types.ObjectId,

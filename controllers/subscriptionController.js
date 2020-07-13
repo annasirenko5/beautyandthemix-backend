@@ -55,9 +55,32 @@ const list  = async(req, res) => {
         }));
 };
 
+const update = async (req, res) => {
+    if(Object.keys(req.body).length === 0) {
+        return res.status(400).json({
+            error: 'Bad Request',
+            message: 'The request body is empty'
+        });
+    }
+
+    try {
+        let subscription = await Subscription.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true
+        }).exec()
+        return res.status(200).json(subscription);
+    } catch (e) {
+        return res.status(500).json({
+            error: 'Internal server error',
+            message: err.message
+        });
+    }
+};
+
 module.exports = {
     create,
     read,
     remove,
-    list
+    list,
+    update
 };
