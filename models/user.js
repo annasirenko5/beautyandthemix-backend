@@ -21,7 +21,8 @@ var UserSchema = new Schema({
     },
     bookings: [{
         type: Schema.Types.ObjectId,
-        ref: 'Event'
+        ref: 'Event',
+        unique: true
     }],
     address: {
         type: Schema.Types.ObjectId,

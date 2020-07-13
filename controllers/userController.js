@@ -55,7 +55,27 @@ const update = async (req, res) => {
     }
 
     try {
-        let user = await User.findByIdAndUpdate(req.params.id, req.body, {
+        let usr = await User.findById(req.params.id);
+        let upd = req.body;
+
+        console.log("UPD Booking type");
+        console.log(Array.isArray(upd.bookings));
+
+        if(!Array.isArray(upd.bookings)) {
+            upd.bookings = Array.from(upd.bookings);
+        }
+
+        console.log("UPD Booking type");
+        console.log(Array.isArray(upd.bookings));
+        console.log(upd.bookings);
+        // avoid duplicates
+        // for (let i = 0; i < upd.bookings.length; i++) {
+        //     console.log(usr.bookings.find(upd.bookings[i]));
+        // }
+
+        upd.bookings = Array.prototype.concat(usr.bookings, upd.bookings);
+
+        let user = await User.findByIdAndUpdate(req.params.id, upd, {
             new: true,
             runValidators: true
         }).exec();
@@ -63,7 +83,7 @@ const update = async (req, res) => {
     } catch (e) {
         return res.status(500).json({
             error: 'Internal server error',
-            message: err.message
+            message: e.message
         });
     }
 };

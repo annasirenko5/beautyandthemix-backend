@@ -88,8 +88,8 @@ const getByService = async(req, res) => {
         if(eventList.length > 0) {
             return res.status(200).json(eventList);
         } else {
-            return res.status(500).json({
-                error: "Internal server error",
+            return res.status(404).json({
+                error: "Empty List",
                 message: "Events with this service do not exist yet."
             });
         }
