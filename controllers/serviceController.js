@@ -1,4 +1,5 @@
 var Service = require('../models/service');
+var Salon = require('../models/salon');
 var Feedback = require('../models/feedback');
 
 const serviceSchema = new Service();
@@ -12,6 +13,10 @@ const create = async (req, res) => {
     try {
 
         let service = await Service.create(req.body);
+
+        let salon = await Salon.update({_id: req.body.salon}, {$push: {services: service._id}});
+
+        console.log(salon);
 
         return res.status(201).json(service);
     } catch(err) {

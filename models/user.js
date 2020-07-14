@@ -42,6 +42,10 @@ var UserSchema = new Schema({
         ref: 'Subscription',
         //required: true
     },
+    extra_points: {
+        type: Number,
+        default: 0
+    }
 });
 
 // Virtual for user's URL

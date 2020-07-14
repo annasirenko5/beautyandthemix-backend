@@ -26,7 +26,8 @@ var ServiceSchema = new Schema({
     },
     salon: {
         type: Schema.Types.ObjectId,
-        ref: 'Salon'
+        ref: 'Salon',
+        required: true
     },
     reviews: [{
         type: Schema.Types.ObjectId,

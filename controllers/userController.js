@@ -28,7 +28,7 @@ const read = async (req, res) => {
         let user = await User.findById(req.params.id)
             .populate('address')
             .populate('bankData')
-            .populate('bookings')
+            .populate({path: 'bookings', populate: {path: 'service'}})
             .populate('subscription')
             .exec();
 
@@ -58,22 +58,9 @@ const update = async (req, res) => {
         let usr = await User.findById(req.params.id);
         let upd = req.body;
 
-        console.log("UPD Booking type");
-        console.log(Array.isArray(upd.bookings));
-
-        if(!Array.isArray(upd.bookings)) {
-            upd.bookings = Array.from(upd.bookings);
+        if(upd.extra_points) {
+            upd.extra_points = usr.extra_points + upd.extra_points;
         }
-
-        console.log("UPD Booking type");
-        console.log(Array.isArray(upd.bookings));
-        console.log(upd.bookings);
-        // avoid duplicates
-        // for (let i = 0; i < upd.bookings.length; i++) {
-        //     console.log(usr.bookings.find(upd.bookings[i]));
-        // }
-
-        upd.bookings = Array.prototype.concat(usr.bookings, upd.bookings);
 
         let user = await User.findByIdAndUpdate(req.params.id, upd, {
             new: true,
@@ -116,9 +103,9 @@ const dlt = async (req, res) => {
 const list = async(req, res) => {
     try{
         let users = await User.find({})
+            .populate({path: 'bookings', populate: {path: 'service'}})
             .populate('address')
             .populate('bankData')
-            .populate('bookings')
             .populate('subscription')
             .exec();
         return res.status(200).json(users);

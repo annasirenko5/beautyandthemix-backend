@@ -6,7 +6,8 @@ var EventSchema = new Schema({
     // format "dd/MM/yyyy hh:mm TT"
     service: {
         type: Schema.Types.ObjectId,
-        ref: 'Service'
+        ref: 'Service',
+        required: true
     },
     timeStart: {
         type: Date ,
@@ -14,7 +15,7 @@ var EventSchema = new Schema({
     },
     booked: {
         type: Boolean,
-        required: true
+        default: false
     },
     worker: {
         type: String,

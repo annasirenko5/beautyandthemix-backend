@@ -1,6 +1,7 @@
 "use strict";
 
 const Event = require('../models/event');
+const Service = require('../models/service');
 
 
 const create = async (req, res) => {
@@ -9,7 +10,20 @@ const create = async (req, res) => {
         message: 'The request body is empty'
     });
 
-    Event.create(req.body)
+    let evnt = req.body;
+
+    // automatically add salon
+    if (evnt.service) {
+        console.log("aaa");
+        Service.findById(evnt.service).exec().then(
+        (service) => {
+            console.log("bbb");
+            console.log(service);
+            evnt.salon = service.salon;
+        });
+    }
+
+    Event.create(evnt)
         .then(event => res.status(201).json(event))
         .catch(error => res.status(500).json({
             error: 'Internal server error',
