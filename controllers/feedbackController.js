@@ -59,9 +59,32 @@ const list  = async(req, res) => {
         }));
 };
 
+const bySalon = async(req, res) => {
+    try {
+        const feedbackList = await Feedback.find({salon: req.params.salon})
+            .populate('service')
+            .populate('by_user')
+            .exec();
+        if (feedbackList.length > 0) {
+            return res.status(200).json(feedbackList);
+        } else {
+            return res.status(500).json({
+                error: "Internal server error",
+                message: "Feedbacks with this salon do not exist yet."
+            });
+        }
+    } catch (e) {
+        return res.status(500).json({
+            error: "Internal server error",
+            message: e.message
+        });
+    }
+};
+
 module.exports = {
     create,
     read,
     remove,
-    list
+    list,
+    bySalon
 };

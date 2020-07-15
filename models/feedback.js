@@ -22,8 +22,19 @@ var FeedbackSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
-    }
+    },
+    salon: {
+        type: Schema.Types.ObjectId,
+        ref: 'Salon'
+    },
 });
+
+    // Virtual for feedback's URL
+    FeedbackSchema
+        .virtual('url')
+        .get(function () {
+            return '/feedback/' + this._id;
+        });
 
 // Export function to create "Feedback" model class
 module.exports = mongoose.model('Feedback', FeedbackSchema);
