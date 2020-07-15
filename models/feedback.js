@@ -27,6 +27,10 @@ var FeedbackSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Salon'
     },
+    service: {
+        type: Schema.Types.ObjectId,
+        ref: 'Service'
+    }
 
 });
 
