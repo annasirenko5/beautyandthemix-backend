@@ -27,6 +27,7 @@ var FeedbackSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Salon'
     },
+
 });
 
     // Virtual for feedback's URL

@@ -1,6 +1,7 @@
 "use strict";
 
 const Feedback = require('../models/feedback');
+const Service = require('../models/service');
 
 
 const create = async (req, res) => {
@@ -9,8 +10,20 @@ const create = async (req, res) => {
         message: 'The request body is empty'
     });
 
-    Feedback.create(req.body)
-        .then(feedback => res.status(201).json(feedback))
+    let feedback = req.body;
+
+    if(feedback.service) {
+        await Service.findById(feedback.service).exec().then(
+            (service) => {
+                feedback.salon = service.salon;
+            });
+    }
+
+    await Feedback.create(req.body)
+        .then((feedback) => {
+            Salon.update({_id: feedback.salon}, {$push: {reviews: feedback._id}});
+            res.status(201).json(feedback)
+        })
         .catch(error => res.status(500).json({
             error: 'Internal server error',
             message: error.message
