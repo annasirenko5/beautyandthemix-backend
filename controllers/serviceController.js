@@ -16,8 +16,6 @@ const create = async (req, res) => {
 
         let salon = await Salon.update({_id: req.body.salon}, {$push: {services: service._id}});
 
-        console.log(salon);
-
         return res.status(201).json(service);
     } catch(err) {
         return res.status(500).json({

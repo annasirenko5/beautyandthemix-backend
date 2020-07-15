@@ -14,16 +14,13 @@ const create = async (req, res) => {
 
     // automatically add salon
     if (evnt.service) {
-        console.log("aaa");
-        Service.findById(evnt.service).exec().then(
+        await Service.findById(evnt.service).exec().then(
         (service) => {
-            console.log("bbb");
-            console.log(service);
             evnt.salon = service.salon;
         });
     }
 
-    Event.create(evnt)
+    await Event.create(evnt)
         .then(event => res.status(201).json(event))
         .catch(error => res.status(500).json({
             error: 'Internal server error',
