@@ -47,6 +47,7 @@ const read = async (req, res) => {
 };
 
 const update = async (req, res) => {
+
     if(Object.keys(req.body).length === 0) {
         return res.status(400).json({
             error: 'Bad Request',
@@ -61,6 +62,9 @@ const update = async (req, res) => {
         if(upd.extra_points) {
             upd.extra_points = usr.extra_points + upd.extra_points;
         }
+
+        upd.bookings = Array.prototype.concat(upd.bookings, usr.bookings);
+        console.log(upd.bookings);
 
         let user = await User.findByIdAndUpdate(req.params.id, upd, {
             new: true,
