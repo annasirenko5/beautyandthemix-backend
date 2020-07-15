@@ -75,22 +75,23 @@ const update = async (req, res) => {
 
 const dlt = async (req, res) => {
     try {
-        await Salon.findByIdAndRemove(req.params.id).exec()
-            .then(salon => {
-                Address.findByIdAndRemove({_id: salon.location}).exec();
-                Service.find({_id: salon["services"]}).exec()
-                    .then(services => {
-                        for (let i = 0; i < services.length; i++) {
-                            Service.findByIdAndRemove({_id: services[i]["_id"]}).exec();
-                        }
-                    })
-                Feedback.find({_id: salon["reviews"]}).exec()
-                    .then(reviews => {
-                        for (let i = 0; i < reviews.length; i++) {
-                            Feedback.findByIdAndRemove({_id: reviews[i]["_id"]}).exec();
-                        }
-                    })
+        let salon = await Salon.findById(req.params.id);
+        console.log(salon);
+        await Feedback.find({_id: salon["reviews"]}).exec()
+            .then(reviews => {
+                for (let i = 0; i < reviews.length; i++) {
+                    Feedback.findByIdAndRemove({_id: reviews[i]["_id"]}).exec();
+                }
             });
+        // if service is removed then all associated events are removed also
+        await Service.find({_id: salon["services"]}).exec()
+            .then(services => {
+                for (let i = 0; i < services.length; i++) {
+                    Service.findByIdAndRemove({_id: services[i]["_id"]}).exec();
+                }
+            });
+        await Address.findByIdAndRemove({_id: salon.location}).exec();
+        await Salon.findByIdAndRemove({_id: req.params.id}).exec();
 
         return res.status(200).json({message: 'Salon with id ' + req.params.id + ' was deleted'});
     } catch (e) {

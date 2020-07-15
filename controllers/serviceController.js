@@ -1,6 +1,7 @@
 var Service = require('../models/service');
 var Salon = require('../models/salon');
 var Feedback = require('../models/feedback');
+var Event = require('../models/event');
 
 const serviceSchema = new Service();
 
@@ -71,21 +72,27 @@ const update = async (req, res) => {
 const dlt = async (req, res) => {
     try {
         // remove data asociated with service
-        await Service.findByIdAndRemove(req.params.id).exec()
-            .then(service => {
-                Feedback.find({_id: service["reviews"]}).exec()
-                    .then(reviews => {
-                        for (let i = 0; i < reviews.length; i++) {
-                            Feedback.findByIdAndRemove({_id: reviews[i]["_id"]}).exec();
-                        }
-                    })
-            })
+        //remove events for service
+        let service = await Service.findById(req.params.id);
+        await Event.find({service: service._id}).exec()
+            .then(events => {
+                events.map((event) => {
+                    Event.findByIdAndRemove({_id: event._id}).exec()
+                })
+            });
+        await Feedback.find({_id: service["reviews"]}).exec()
+            .then(reviews => {
+                for (let i = 0; i < reviews.length; i++) {
+                    Feedback.findByIdAndRemove({_id: reviews[i]["_id"]}).exec();
+                }
+            });
+        await Service.findByIdAndRemove(req.params.id).exec();
 
         return res.status(200).json({message: 'Service with id ' + req.params.id + ' was deleted'});
     } catch (e) {
         return res.status(500).json({
             error: 'Internal server error',
-            message: err.message
+            message: e.message
         });
     }
 };
