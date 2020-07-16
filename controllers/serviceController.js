@@ -179,10 +179,13 @@ const getTypes = async(req,res) => {
 
 const getBySalon = async(req, res) => {
     try {
-        const serviceList = await Service.find({salon: req.params.salon})
-            .populate('salon')
-            .populate('reviews')
-            .exec();
+        // let opts = {};
+        const serviceList = await Service.find({salon: req.params.salon}, '_id name');
+        // serviceList.map(
+        //     (item) => {
+        //         if(!opts[item._id]) opts[item._id] ={};
+        //         opts[item.id].name = item.name;
+        //     });
         if (serviceList.length > 0) {
             return res.status(200).json(serviceList);
         } else {

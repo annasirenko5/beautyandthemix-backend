@@ -2,6 +2,7 @@
 
 const Feedback = require('../models/feedback');
 const Service = require('../models/service');
+const Salon = require('../models/salon');
 
 
 const create = async (req, res) => {

@@ -1,4 +1,4 @@
-    var mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
@@ -7,7 +7,7 @@ var FeedbackSchema = new Schema({
         type: Number, //changed from integer to number
         min: 0,
         max: 5, //max star rating are 5 stars
-        required: false
+        required: true
     },
     comment: {
         type: String,
@@ -27,6 +27,10 @@ var FeedbackSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Salon'
     },
+    service: {
+        type: Schema.Types.ObjectId,
+        ref: 'Service'
+    }
 
 });
 
