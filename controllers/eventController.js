@@ -126,13 +126,11 @@ const getFreeDates = async (req, res) => {
 
         for (let i = 0; i < events.length; i++) {
 
-            let currDate = events[i].timeStart.getFullYear() + "-" + events[i].timeStart.getMonth() + "-" + events[i].timeStart.getDate();
+            let currDate = events[i].timeStart.getFullYear() + "-" + Number(events[i].timeStart.getMonth() + 1) + "-" + events[i].timeStart.getDate();
             if (!resp[currDate]) resp[currDate] = {};
 
             await Service.findOne({_id: events[i].service}).then((service) => {
                 if (!resp[currDate][service.type]) resp[currDate][service.type] = [];
-
-                console.log(resp[currDate][service.type]);
 
                 if(!hasSame(resp[currDate][service.type], service)) {
                     resp[currDate][service.type] = resp[currDate][service.type].concat(service._id);
