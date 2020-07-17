@@ -22,6 +22,7 @@ var eventRouter = require('./routes/event');
 var subscriptionRouter = require('./routes/subscription');
 var feedbackRouter = require('./routes/feedback');
 var authRouter = require('./routes/auth');
+var pdfRouter = require('./routes/pdf');
 
 var app = express();
 
@@ -62,6 +63,7 @@ app.use('/event', eventRouter);
 app.use('/subscription', subscriptionRouter);
 app.use('/feedback', feedbackRouter)
 app.use('/auth', authRouter);
+app.use('/pdf', pdfRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
