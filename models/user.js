@@ -45,7 +45,15 @@ var UserSchema = new Schema({
     extra_points: {
         type: Number,
         default: 0
-    }
+    },
+    monthly_pay: [{
+      name: {
+          type: String
+      },
+      price: {
+          type: Number
+      }
+    }]
 });
 
 // Virtual for user's URL

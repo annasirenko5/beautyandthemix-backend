@@ -34,6 +34,7 @@ const create = async (req, res) => {
 const read   = async (req, res) => {
     Feedback.findById(req.params.id)
         .populate('by_user')
+        .populate('service')
         .exec()
         .then(feedback => {
 
@@ -65,6 +66,7 @@ const remove = async(req, res) => {
 const list  = async(req, res) => {
     Feedback.find({})
         .populate('by_user')
+        .populate('service')
         .exec()
         .then(feedbacks => res.status(200).json(feedbacks))
         .catch(error => res.status(500).json({
