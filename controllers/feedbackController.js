@@ -97,10 +97,51 @@ const bySalon = async(req, res) => {
     }
 };
 
+const avgReviews  = async (req, res) => {
+    try {
+        const avgreviewList = await Feedback.aggregate(
+            [
+                {
+                    $group:
+                        {
+                            _id: "$salon",
+                            avgReviews: {$avg : "$stars"}
+                        }
+                },
+                {
+                    $lookup: {  //another way to populate salon informations
+                        from: Salon.collection.name,
+                        localField: '_id',
+                        foreignField:'_id',
+                        as:'salon'
+                    }
+                },
+                { $sort: { "avgReviews": -1 } }
+            ]
+
+        )
+            .exec();
+        if (avgreviewList.length > 0) {
+            return res.status(200).json(avgreviewList);
+        } else {
+            return res.status(500).json({
+                error: "Internal server error",
+                message: "Feedbacks with this salon do not exist yet."
+            });
+        }
+    } catch (e) {
+        return res.status(500).json({
+            error: "Internal server error",
+            message: e.message
+        });
+    }
+};
+
 module.exports = {
     create,
     read,
     remove,
     list,
-    bySalon
+    bySalon,
+    AvgReviews: avgReviews
 };
