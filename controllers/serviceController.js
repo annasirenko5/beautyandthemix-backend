@@ -6,7 +6,7 @@ var Event = require('../models/event');
 const serviceSchema = new Service();
 
 const create = async (req, res) => {
-    if(Object.keys(req.body).length === 0) return res.status(400).json({
+    if (Object.keys(req.body).length === 0) return res.status(400).json({
         error: 'Bad Request',
         message: 'The request body is empty'
     });
@@ -18,7 +18,7 @@ const create = async (req, res) => {
         let salon = await Salon.update({_id: req.body.salon}, {$push: {services: service._id}});
 
         return res.status(201).json(service);
-    } catch(err) {
+    } catch (err) {
         return res.status(500).json({
             error: 'Internal server error',
             message: err.message
@@ -48,7 +48,7 @@ const read = async (req, res) => {
 };
 
 const update = async (req, res) => {
-    if(Object.keys(req.body).length === 0) {
+    if (Object.keys(req.body).length === 0) {
         return res.status(400).json({
             error: 'Bad Request',
             message: 'The request body is empty'
@@ -59,7 +59,7 @@ const update = async (req, res) => {
         let service = await Service.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
             runValidators: true
-        }).exec()
+        }).exec();
         return res.status(200).json(service);
     } catch (e) {
         return res.status(500).json({
@@ -97,8 +97,8 @@ const dlt = async (req, res) => {
     }
 };
 
-const list = async(req, res) => {
-    try{
+const list = async (req, res) => {
+    try {
         let services = await Service.find({})
             .populate('salon')
             .populate('reviews')
@@ -120,7 +120,7 @@ const addReview = async (req, res) => {
         });
     }
 
-    try{
+    try {
         await Service.findById(req.params.id).exec()
             .then(service => {
                     if (service.reviews.includes(req.body.reviews)) {
@@ -137,8 +137,7 @@ const addReview = async (req, res) => {
                     }
                 }
             )
-    }
-    catch (e) {
+    } catch (e) {
         return res.status(500).json({
             error: 'Internal server error',
             message: err.message
@@ -147,8 +146,8 @@ const addReview = async (req, res) => {
 
 };
 
-const getByType = async(req, res) => {
-    try{
+const getByType = async (req, res) => {
+    try {
         const serviceList = await Service.find({type: req.params.type})
             .populate({
                 path: 'salon',
@@ -156,7 +155,7 @@ const getByType = async(req, res) => {
             })
             .populate('reviews')
             .exec();
-        if(serviceList.length > 0) {
+        if (serviceList.length > 0) {
             return res.status(200).json(serviceList);
         } else {
             return res.status(500).json({
@@ -164,8 +163,7 @@ const getByType = async(req, res) => {
                 message: "Services with this type do not exist yet."
             });
         }
-    }
-    catch (e) {
+    } catch (e) {
         return res.status(500).json({
             error: "Internal server error",
             message: e.message
@@ -173,19 +171,14 @@ const getByType = async(req, res) => {
     }
 };
 
-const getTypes = async(req,res) => {
+const getTypes = async (req, res) => {
     return res.status(200).json(serviceSchema.schema.path('type').enumValues);
 };
 
-const getBySalon = async(req, res) => {
+const getBySalon = async (req, res) => {
     try {
-        // let opts = {};
         const serviceList = await Service.find({salon: req.params.salon}, '_id name');
-        // serviceList.map(
-        //     (item) => {
-        //         if(!opts[item._id]) opts[item._id] ={};
-        //         opts[item.id].name = item.name;
-        //     });
+
         if (serviceList.length > 0) {
             return res.status(200).json(serviceList);
         } else {

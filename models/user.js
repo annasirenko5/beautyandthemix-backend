@@ -21,8 +21,7 @@ var UserSchema = new Schema({
     },
     bookings: [{
         type: Schema.Types.ObjectId,
-        ref: 'Event',
-        unique: true
+        ref: 'Event'
     }],
     address: {
         type: Schema.Types.ObjectId,
@@ -47,12 +46,12 @@ var UserSchema = new Schema({
         default: 0
     },
     monthly_pay: [{
-      name: {
-          type: String
-      },
-      price: {
-          type: Number
-      }
+        name: {
+            type: String
+        },
+        price: {
+            type: Number
+        }
     }]
 });
 
