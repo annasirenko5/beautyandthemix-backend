@@ -1,4 +1,4 @@
-var Address = require('../models/address');
+const Address = require('../models/address');
 
 const create = async (req, res) => {
     if(Object.keys(req.body).length === 0) return res.status(400).json({

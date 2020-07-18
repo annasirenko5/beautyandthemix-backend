@@ -1,7 +1,9 @@
-var express = require('express');
-var router = express.Router();
+"use strict";
 
-var service_controller = require('../controllers/serviceController');
+const express = require('express');
+const router = express.Router();
+
+const service_controller = require('../controllers/serviceController');
 
 //GET options for type
 router.get('/options', service_controller.getTypes);

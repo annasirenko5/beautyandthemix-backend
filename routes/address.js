@@ -1,7 +1,9 @@
-var express = require('express');
-var router = express.Router();
+"use strict";
 
-var address_controller = require('../controllers/addressController');
+const express = require('express');
+const router = express.Router();
+
+const address_controller = require('../controllers/addressController');
 
 // Create
 router.post('/', address_controller.create);

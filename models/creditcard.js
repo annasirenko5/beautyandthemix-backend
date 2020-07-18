@@ -1,14 +1,14 @@
 // Require Mongoose
-var mongoose = require('mongoose');
-var extend = require('mongoose-schema-extend');
+const mongoose = require('mongoose');
+const extend = require('mongoose-schema-extend');
 //var extendSchema = require('mongoose-schema-extend');
-var BankDataSchema = require('../models//bankdata');
+const BankDataSchema = require('../models//bankdata');
 
 // Define a schema
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 // use BankData as Base Schema and extend it with CreditCard parameters
- var CreditCardSchema  = BankDataSchema.discriminator('CreditCard', new mongoose.Schema({
+const CreditCardSchema  = BankDataSchema.discriminator('CreditCard', new mongoose.Schema({
     cardHolderName: {
         type: String,
         required: true

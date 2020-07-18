@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var EventSchema = new Schema({
+const EventSchema = new Schema({
     // format "dd/MM/yyyy hh:mm TT"
     service: {
         type: Schema.Types.ObjectId,

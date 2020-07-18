@@ -1,11 +1,11 @@
 // Require Mongoose
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 // Defina a schema
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 // is address required?
-var AddressSchema = new Schema({
+const AddressSchema = new Schema({
     // user as foreign key
     street: String,
     streetnumber: {

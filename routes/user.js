@@ -1,7 +1,9 @@
-var express = require('express');
-var router = express.Router();
+"use strict";
 
-var user_controller = require('../controllers/userController');
+const express = require('express');
+const router = express.Router();
+
+const user_controller = require('../controllers/userController');
 
 // Create user
 router.post('/', user_controller.create);

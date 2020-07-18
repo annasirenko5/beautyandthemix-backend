@@ -1,8 +1,9 @@
-var User = require('../models/user');
-var Address = require('../models/address');
-var Event = require('../models/event');
-var BankData = require('../models/bankdata');
-var Subscription = require('../models/subscription');
+const User = require('../models/user');
+const Address = require('../models/address');
+const Event = require('../models/event');
+const BankData = require('../models/bankdata');
+const Subscription = require('../models/subscription');
+const cron = require('node-cron');
 
 const create = async (req, res) => {
     if(Object.keys(req.body).length === 0) return res.status(400).json({

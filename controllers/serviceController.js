@@ -1,7 +1,7 @@
-var Service = require('../models/service');
-var Salon = require('../models/salon');
-var Feedback = require('../models/feedback');
-var Event = require('../models/event');
+const Service = require('../models/service');
+const Salon = require('../models/salon');
+const Feedback = require('../models/feedback');
+const Event = require('../models/event');
 
 const serviceSchema = new Service();
 

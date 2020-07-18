@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var FeedbackSchema = new Schema({
+const FeedbackSchema = new Schema({
     stars: {
         type: Number, //changed from integer to number
         min: 0,

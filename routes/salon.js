@@ -1,7 +1,9 @@
-var express = require('express');
-var router = express.Router();
+"use strict";
 
-var salon_controller = require('../controllers/salonController');
+const express = require('express');
+const router = express.Router();
+
+const salon_controller = require('../controllers/salonController');
 
 // Create salon
 router.post('/', salon_controller.create);

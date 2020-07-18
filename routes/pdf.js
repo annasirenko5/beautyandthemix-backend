@@ -1,7 +1,9 @@
-var express = require('express');
-var router = express.Router();
+"use strict";
 
-var pdf_Generator = require('../controllers/pdfGenerator');
+const express = require('express');
+const router = express.Router();
+
+const pdf_Generator = require('../controllers/pdfGenerator');
 
 // Create pdf
 router.get('/:id/:month/:year', pdf_Generator.createInvoice);

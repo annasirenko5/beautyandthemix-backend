@@ -1,7 +1,7 @@
-var Salon = require('../models/salon');
-var Address = require('../models/address');
-var Service = require('../models/service');
-var Feedback = require('../models/feedback');
+const Salon = require('../models/salon');
+const Address = require('../models/address');
+const Service = require('../models/service');
+const Feedback = require('../models/feedback');
 
 const create = async (req, res) => {
     if(Object.keys(req.body).length === 0) return res.status(400).json({

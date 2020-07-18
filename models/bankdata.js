@@ -1,10 +1,10 @@
 // Require Mongoose
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 // Define a schema
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
-var BankDataSchema = new Schema({
+const BankDataSchema = new Schema({
     subscriptionPrice: Number,
     // subscription payment takes place internally within PayPal
     // therefore, only save information whether payment takes place with paypal or credit card (then also save cc data)
