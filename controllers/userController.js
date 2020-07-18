@@ -30,8 +30,6 @@ const read = async (req, res) => {
             .populate('bankData')
             .populate({path: 'bookings', populate: {path: 'service'}})
             .populate('subscription')
-            .populate('profilePicture')
-            .pop
             .exec();
 
         if (!user) return res.status(404).json({
