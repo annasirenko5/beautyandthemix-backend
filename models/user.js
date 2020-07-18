@@ -46,12 +46,17 @@ var UserSchema = new Schema({
         default: 0
     },
     monthly_pay: [{
-        name: {
-            type: String
+        month: {
+            type: Date
         },
-        price: {
-            type: Number
-        }
+        items: [{
+            name: {
+                type: String
+            },
+            price: {
+                type: Number
+            }
+        }]
     }]
 });
 

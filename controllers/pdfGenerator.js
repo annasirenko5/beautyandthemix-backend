@@ -1,6 +1,7 @@
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
 const Moment = require('moment');
+const User = require('../models/user');
 
 function generateHeader(doc){
     doc
@@ -26,9 +27,9 @@ function generateFooter(doc) {
         );
 }
 
-function generatePayInfo(doc, user) {
+function generatePayInfo(doc, user, mntPay) {
     const address = user.address;
-    let total = calcTotal(user.monthly_pay);
+    let total = calcTotal(mntPay.items);
 
     doc
         .fillColor("#444444")
@@ -39,8 +40,8 @@ function generatePayInfo(doc, user) {
 
     doc
         .fontSize(10)
-        .text(`Invoice Number: 1`, 50, 200)
-        .text(`Invoice Date: ${Moment(new Date()).format('LL')}`, 50, 215)
+        .text(`Invoice Number: ${mntPay._id}`, 50, 200)
+        .text(`Invoice Date: ${Moment(new Date(mntPay.month)).format('LL')}`, 50, 215)
         .text(`Total: ${total} €`, 50, 230)
 
         .text(`${user.firstName}, ${user.lastName}`, 320, 200)
@@ -58,18 +59,18 @@ function generateTableRow(doc, y, c1, c2) {
         .text(c2, 50, y, { align: "right" });
 }
 
-function calcTotal(mntPay){
+function calcTotal(mntPayItems){
     let total = 0;
-    for(let i = 0; i < mntPay.length; i++){
-        total += Number.parseFloat(mntPay[i].price);
+    for(let i = 0; i < mntPayItems.length; i++){
+        total += Number.parseFloat(mntPayItems[i].price);
     }
     return total;
 }
 
-function generateInvoiceTable(doc, user) {
+function generateInvoiceTable(doc, user, mntPay) {
     let i,
         invoiceTableTop = 330;
-    let total = calcTotal(user.monthly_pay);
+    let total = calcTotal(mntPay.items);
 
     doc.font("Helvetica-Bold");
 
@@ -83,14 +84,14 @@ function generateInvoiceTable(doc, user) {
     generateHr(doc, invoiceTableTop + 20);
     doc.font("Helvetica");
 
-    for (i = 0; i < user.monthly_pay.length; i++) {
-        const mntPay = user.monthly_pay [i];
+    for (i = 0; i < mntPay.items.length; i++) {
+        const mntPayItem = mntPay.items[i];
         const position = invoiceTableTop + (i + 1) * 30;
         generateTableRow(
             doc,
             position,
-            mntPay.name,
-        `${mntPay.price} €`
+            mntPayItem.name,
+        `${mntPayItem.price} €`
     );
     generateHr(doc, position + 20);
 }
@@ -115,19 +116,41 @@ function generateHr(doc, y) {
         .stroke();
 }
 
-function createInvoice(req, res) {
-    let doc = new PDFDocument({ margin: 50 });
-    let user = req.body;
-
-    generateHeader(doc);
-    generatePayInfo(doc, user);
-    generateInvoiceTable(doc, user);
-    generateFooter(doc);
-
-    doc.pipe(res);
-    doc.end();
+function getPayByMonth(user, monthYear){
+    for (let i = 0; i < user.monthly_pay.length; i++){
+        let userMntPay = user.monthly_pay[i].month;
+        if(monthYear.getMonth() === userMntPay.getMonth() && monthYear.getFullYear() === userMntPay.getFullYear()){
+            return user.monthly_pay[i]
+        }
+    }
+    return null;
 }
 
-module.exports ={
-    createInvoice,
+
+function createInvoice(req, res) {
+    let doc = new PDFDocument({ margin: 50 });
+    let monthYear = new Date();
+    monthYear.setMonth(req.params.month - 1);
+    monthYear.setFullYear(req.params.year);
+    User.findById(req.params.id)
+        .populate('address')
+        .then((user) => {
+            let userMntPay = getPayByMonth(user, monthYear);
+            generateHeader(doc);
+            generatePayInfo(doc, user, userMntPay);
+            generateInvoiceTable(doc, user, userMntPay);
+            generateFooter(doc);
+
+            //let dateFormat = Moment(new Date(user.monthly_pay[0].month)).format('LL')
+
+            //doc.pipe(fs.createWriteStream('http://localhost:3000/mybills/invoice.pdf'))
+            //doc.pipe(fs.createWriteStream('./invoices/' + user._id + "+" + dateFormat + '.pdf'));
+            doc.pipe(res);
+            doc.end();
+    })
+
+}
+
+module.exports = {
+    createInvoice
 }
