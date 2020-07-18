@@ -30,6 +30,8 @@ const read = async (req, res) => {
             .populate('bankData')
             .populate({path: 'bookings', populate: {path: 'service'}})
             .populate('subscription')
+            .populate('profilePicture')
+            .pop
             .exec();
 
         if (!user) return res.status(404).json({
@@ -63,8 +65,13 @@ const update = async (req, res) => {
             upd.extra_points = usr.extra_points + upd.extra_points;
         }
 
+        if(upd.profilePicture) {
+            upd.profilePicture = upd.profilePicture;
+        }
+
         upd.bookings = Array.prototype.concat(upd.bookings, usr.bookings);
         console.log(upd.bookings);
+
 
         let user = await User.findByIdAndUpdate(req.params.id, upd, {
             new: true,
