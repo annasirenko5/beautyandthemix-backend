@@ -14,7 +14,7 @@ const create = async (req, res) => {
     try {
         let service = await Service.create(req.body);
         // update salon where the service belongs to to include the service
-        let salon = await Salon.update({_id: req.body.salon}, {$push: {services: service._id}});
+        await Salon.update({_id: req.body.salon}, {$push: {services: service._id}});
 
         return res.status(201).json(service);
     } catch (err) {
@@ -128,7 +128,6 @@ const addReview = async (req, res) => {
                         })
                     } else {
                         service.update(req.body).then((upService) => {
-                                console.log(upService);
                                 res.status(200).json(upService)
                             }
                         ).catch((err) => console.log(err.message));

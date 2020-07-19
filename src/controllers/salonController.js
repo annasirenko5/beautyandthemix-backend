@@ -136,7 +136,6 @@ const addService = async (req, res) => {
                         })
                     } else {
                         salon.update(req.body).then((upSalon) => {
-                                console.log(upSalon);
                                 res.status(200).json(upSalon)
                             }
                         ).catch((err) => console.log(err.message));
@@ -173,7 +172,6 @@ const addReview = async (req, res) => {
                         })
                     } else {
                         salon.update(req.body).then((upSalon) => {
-                                console.log(upSalon);
                                 res.status(200).json(upSalon)
                             }
                         ).catch((err) => console.log(err.message));

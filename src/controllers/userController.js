@@ -66,7 +66,6 @@ const update = async (req, res) => {
             if(upd.bookings !== undefined) {
                 upd.bookings = Array.prototype.concat(upd.bookings, usr.bookings);
             }
-            console.log(upd.bookings);
 
         }
 
@@ -158,7 +157,6 @@ const addBooking = async (req, res) => {
                         })
                     } else {
                         user.update(req.body).then((upUser) => {
-                                console.log(upUser);
                                 res.status(200).json(upUser)
                             }
                         ).catch((err) => console.log(err.message));

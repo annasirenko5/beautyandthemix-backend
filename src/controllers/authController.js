@@ -8,7 +8,6 @@ const User  = require('../models/user');
 
 
 const login = async (req,res) => {
-    console.log(req.body);
     if (!Object.prototype.hasOwnProperty.call(req.body, 'password')) return res.status(400).json({
         error: 'Bad Request',
         message: 'The request body must contain a password property'
@@ -21,7 +20,6 @@ const login = async (req,res) => {
 
     try {
         let user = await User.findOne({username: req.body.username}).exec();
-        console.log(user);
         // check if the password is valid
         const isPasswordValid = bcrypt.compareSync(req.body.password, user.password);
         if (!isPasswordValid) return res.status(401).send({token: null});
