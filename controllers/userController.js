@@ -65,10 +65,27 @@ const update = async (req, res) => {
                 upd.extra_points = usr.extra_points + upd.extra_points;
             }
 
-
-            upd.bookings = Array.prototype.concat(upd.bookings, usr.bookings);
+            if(upd.bookings !== undefined) {
+                upd.bookings = Array.prototype.concat(upd.bookings, usr.bookings);
+            }
             console.log(upd.bookings);
 
+        }
+
+        if(upd.monthly_pay) {
+            if (upd.monthly_pay[0].items) {
+                if (usr.monthly_pay.length > 0) {
+                    let newItems = Array.prototype.concat(upd.monthly_pay[0].items, usr.monthly_pay[0].items)
+                    let mntPay = {
+                        _id: usr.monthly_pay[0]._id,
+                        month: usr.monthly_pay[0].month,
+                        items: newItems
+                    }
+                    upd.monthly_pay = Array.prototype.concat(mntPay, usr.monthly_pay.splice(1, usr.monthly_pay.length))
+                }else if(upd.monthly_pay[0].month === undefined){
+                    upd.monthly_pay[0].month = new Date();
+                }
+            }
         }
 
 
