@@ -5,13 +5,13 @@ const router = express.Router();
 
 const user_controller = require('../controllers/userController');
 
-// Create user
+// CREATE user
 router.post('/', user_controller.create);
 
-// Update user
+// UPDATE user
 router.put('/:id/', user_controller.update);
 
-// Delete user
+// DELETE user
 router.delete('/:id/', user_controller.dlt);
 
 // GET all users

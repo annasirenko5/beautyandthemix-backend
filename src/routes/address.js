@@ -5,19 +5,19 @@ const router = express.Router();
 
 const address_controller = require('../controllers/addressController');
 
-// Create
+// CREATE address
 router.post('/', address_controller.create);
 
-// Update salon
+// UPDATE address
 router.put('/:id/', address_controller.update);
 
-// Delete salon
+// DELETE address
 router.delete('/:id/', address_controller.dlt);
 
-// GET all salons
+// GET all addresses
 router.get('/', address_controller.list);
 
-// GET salon by id
+// GET address by id
 router.get('/:id', address_controller.read);
 
 module.exports = router;

@@ -5,12 +5,19 @@ const router   = express.Router();
 
 const subscription_controller = require('../controllers/subscriptionController');
 
+// GET all subscriptions
+router.get('/', subscription_controller.list);
 
-router.get('/', subscription_controller.list); // List all subscription
-router.post('/', subscription_controller.create); // Create a new subscription
-router.get('/:id', subscription_controller.read); // Read a subscription by Id
-router.delete('/:id', subscription_controller.remove); // Delete a subscription by Id
+// CREATE new subscription
+router.post('/', subscription_controller.create);
+
+// GET subscription by id
+router.get('/:id', subscription_controller.read);
+
+// DELETE subscription
+router.delete('/:id', subscription_controller.remove);
+
+// UPDATE subscription
 router.put('/:id', subscription_controller.update);
-
 
 module.exports = router;

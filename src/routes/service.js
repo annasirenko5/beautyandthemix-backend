@@ -8,13 +8,13 @@ const service_controller = require('../controllers/serviceController');
 //GET options for type
 router.get('/options', service_controller.getTypes);
 
-// Create service
+// CREATE service
 router.post('/', service_controller.create);
 
-// Update service
+// UPDATE service
 router.put('/:id/', service_controller.update);
 
-// Delete service
+// DELETE service
 router.delete('/:id/', service_controller.dlt);
 
 // GET service by id
@@ -29,6 +29,7 @@ router.post('/addReviewToService/:id/', service_controller.addReview);
 // GET all services
 router.get('/', service_controller.list);
 
+// GET services by salon
 router.get('/getBySalon/:salon', service_controller.getBySalon);
 
 module.exports = router;
