@@ -59,13 +59,18 @@ const update = async (req, res) => {
         let usr = await User.findById(req.params.id);
         let upd = req.body;
 
-        if (upd.extra_points) {
-            upd.extra_points = usr.extra_points + upd.extra_points;
+        if(!req.body.cancelBook) {
+
+            if (upd.extra_points) {
+                upd.extra_points = usr.extra_points + upd.extra_points;
+            }
+
+
+            upd.bookings = Array.prototype.concat(upd.bookings, usr.bookings);
+            console.log(upd.bookings);
+
         }
 
-        if (upd.bookings === null) {
-            upd.bookings = Array.prototype.concat(upd.bookings, usr.bookings);
-        }
 
         let user = await User.findByIdAndUpdate(req.params.id, upd, {
             new: true,

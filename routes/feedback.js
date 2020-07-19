@@ -11,7 +11,6 @@ router.post('/', feedback_controller.create); // Create a new feedback
 router.get('/avgReviews', feedback_controller.AvgReviews);
 router.get('/:id', feedback_controller.read); // Read a feedback by Id
 router.delete('/:id', feedback_controller.remove); // Delete a feedback by Id
-
 router.get('/bySalon/:salon', feedback_controller.bySalon);
 
 
