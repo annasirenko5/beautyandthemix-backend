@@ -1,35 +1,35 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
 // Preflight request
 // Notifies the server about the type of request it wants to send
 // Integrated to prevent option instead of post
-var cors = require('cors');
+const cors = require('cors');
 
 const middlewares = require("./middlewares");
 
-var indexRouter = require('./src/routes/index');
-var userRouter = require('./src/routes/user');
-var salonRouter = require('./src/routes/salon');
-var serviceReouter = require('./src/routes/service');
-var addressRouter = require('./src/routes/address');
-var eventRouter = require('./src/routes/event');
-var subscriptionRouter = require('./src/routes/subscription');
-var feedbackRouter = require('./src/routes/feedback');
-var authRouter = require('./src/routes/auth');
-var pdfRouter = require('./src/routes/pdf');
+const indexRouter = require('./src/routes/index');
+const userRouter = require('./src/routes/user');
+const salonRouter = require('./src/routes/salon');
+const serviceReouter = require('./src/routes/service');
+const addressRouter = require('./src/routes/address');
+const eventRouter = require('./src/routes/event');
+const subscriptionRouter = require('./src/routes/subscription');
+const feedbackRouter = require('./src/routes/feedback');
+const authRouter = require('./src/routes/auth');
+const pdfRouter = require('./src/routes/pdf');
 
-var app = express();
+const app = express();
 
 //Set up mongoose connection
-var mongoose = require('mongoose');
-var mongoDB = 'mongodb://localhost/bntm_database';
+const mongoose = require('mongoose');
+const mongoDB = 'mongodb://localhost/bntm_database';
 //connect database
 mongoose.connect(mongoDB, {useNewUrlParser: true});
-var db = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function() {
 	console.log('Connection to database established successfully');
