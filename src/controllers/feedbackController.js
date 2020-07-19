@@ -72,6 +72,7 @@ const list  = async(req, res) => {
         }));
 };
 
+// gets all feedbacks of a specific salon id
 const bySalon = async(req, res) => {
     try {
         const feedbackList = await Feedback.find({salon: req.params.salon})
@@ -94,6 +95,7 @@ const bySalon = async(req, res) => {
     }
 };
 
+// gets an array of all salons in descending order of their average reviews
 const avgReviews  = async (req, res) => {
     try {
         const avgreviewList = await Feedback.aggregate(
