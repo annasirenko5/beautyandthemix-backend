@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
+// Define a schema
 const Schema = mongoose.Schema;
 
 const FeedbackSchema = new Schema({
     stars: {
-        type: Number, //changed from integer to number
+        type: Number,
         min: 0,
         max: 5, //max star rating are 5 stars
         required: true
@@ -33,13 +34,6 @@ const FeedbackSchema = new Schema({
     }
 
 });
-
-    // Virtual for feedback's URL
-    FeedbackSchema
-        .virtual('url')
-        .get(function () {
-            return '/feedback/' + this._id;
-        });
 
 // Export function to create "Feedback" model class
 module.exports = mongoose.model('Feedback', FeedbackSchema);

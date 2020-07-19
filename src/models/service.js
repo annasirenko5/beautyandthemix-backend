@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Define a schema
 const Schema = mongoose.Schema;
 
 const ServiceSchema = new Schema({
@@ -35,12 +36,5 @@ const ServiceSchema = new Schema({
     }]
 });
 
-// Virtual for salon's URL
-ServiceSchema
-    .virtual('url')
-    .get(function () {
-        return '/service/' + this._id;
-    });
-
-// Export model
+// Export  function to create "Service" model class
 module.exports = mongoose.model('Service', ServiceSchema);

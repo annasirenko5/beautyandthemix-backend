@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Define a schema
 const Schema = mongoose.Schema;
 
 const SalonSchema = new Schema({
@@ -40,23 +41,5 @@ const SalonSchema = new Schema({
     }
 });
 
-// Virtual for owner's full name
-SalonSchema
-    .virtual('owner_full_name')
-    .get(function () {
-        var fullname = '';
-        if(this.owner_first_name && this.owner_last_name){
-            fullname = this.owner_first_name + ' ' + this.owner_first_name;
-        }
-        return fullname;
-    });
-
-// Virtual for salon's URL
-SalonSchema
-    .virtual('url')
-    .get(function () {
-        return '/salon/' + this._id;
-    });
-
-// Export model
+// Export function to create "Salon" model class
 module.exports = mongoose.model('Salon', SalonSchema);

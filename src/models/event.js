@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
+// Define a schema
 const Schema = mongoose.Schema;
 
 const EventSchema = new Schema({
-    // format "dd/MM/yyyy hh:mm TT"
     service: {
         type: Schema.Types.ObjectId,
         ref: 'Service',
@@ -27,5 +27,5 @@ const EventSchema = new Schema({
     }
 });
 
-// Export function to create "Subscription" model class
+// Export function to create "Event" model class
 module.exports = mongoose.model('Event', EventSchema);

@@ -1,15 +1,14 @@
 const mongoose = require('mongoose');
 
+// Define a schema
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
     firstName: {
         type: String,
-        //required: true
     },
     lastName: {
         type: String,
-        //required: true
     },
     username: {
         type: String,
@@ -25,21 +24,18 @@ const UserSchema = new Schema({
     }],
     address: {
         type: Schema.Types.ObjectId,
-        ref: 'Address',
-        //required: true
+        ref: 'Address'
     },
     bankData: {
         type: Schema.Types.ObjectId,
-        ref: 'BankData',
-        //required: true
+        ref: 'BankData'
     },
     profilePicture: {
         type: String
     },
     subscription: {
         type: Schema.Types.ObjectId,
-        ref: 'Subscription',
-        //required: true
+        ref: 'Subscription'
     },
     extra_points: {
         type: Number,
@@ -60,12 +56,5 @@ const UserSchema = new Schema({
     }]
 });
 
-// Virtual for user's URL
-UserSchema
-    .virtual('url')
-    .get(function () {
-        return '/user/' + this._id;
-    });
-
-// Export model
+// Export function to create "User" model class
 module.exports = mongoose.model('User', UserSchema);
