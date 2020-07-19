@@ -4,12 +4,12 @@
  * Module dependencies.
  */
 
-const app = require('../app');
+const app = require('./src/app');
 const debug = require('debug')('beautyandthemix-backend:server');
 const http = require('http');
 const cron = require('node-cron')
-const User = require('../src/models/user')
-const Subscription = require('../src/models/subscription')
+const User = require('./src/models/user')
+const Subscription = require('./src/models/subscription')
 
 /**
  * Get port from environment and store in Express.

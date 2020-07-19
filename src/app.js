@@ -11,16 +11,16 @@ const cors = require('cors');
 
 const middlewares = require("./middlewares");
 
-const indexRouter = require('./src/routes/index');
-const userRouter = require('./src/routes/user');
-const salonRouter = require('./src/routes/salon');
-const serviceRouter = require('./src/routes/service');
-const addressRouter = require('./src/routes/address');
-const eventRouter = require('./src/routes/event');
-const subscriptionRouter = require('./src/routes/subscription');
-const feedbackRouter = require('./src/routes/feedback');
-const authRouter = require('./src/routes/auth');
-const pdfRouter = require('./src/routes/pdf');
+const indexRouter = require('./routes');
+const userRouter = require('./routes/user');
+const salonRouter = require('./routes/salon');
+const serviceRouter = require('./routes/service');
+const addressRouter = require('./routes/address');
+const eventRouter = require('./routes/event');
+const subscriptionRouter = require('./routes/subscription');
+const feedbackRouter = require('./routes/feedback');
+const authRouter = require('./routes/auth');
+const pdfRouter = require('./routes/pdf');
 
 const app = express();
 
