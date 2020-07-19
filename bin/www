@@ -8,8 +8,8 @@ const app = require('../app');
 const debug = require('debug')('beautyandthemix-backend:server');
 const http = require('http');
 const cron = require('node-cron')
-const User = require('../models/user')
-const Subscription = require('../models/subscription')
+const User = require('../src/models/user')
+const Subscription = require('../src/models/subscription')
 
 /**
  * Get port from environment and store in Express.

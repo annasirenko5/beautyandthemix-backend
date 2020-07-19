@@ -17,8 +17,8 @@ if (!userArgs[0].startsWith('mongodb')) {
 }
 */
 var async = require('async')
-var Address = require('./models/address')
-var Salon = require('./models/salon')
+var Address = require('./src/models/address')
+var Salon = require('./src/models/salon')
 
 
 var mongoose = require('mongoose');

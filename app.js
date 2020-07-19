@@ -11,16 +11,16 @@ var cors = require('cors');
 
 const middlewares = require("./middlewares");
 
-var indexRouter = require('./routes/index');
-var userRouter = require('./routes/user');
-var salonRouter = require('./routes/salon');
-var serviceReouter = require('./routes/service');
-var addressRouter = require('./routes/address');
-var eventRouter = require('./routes/event');
-var subscriptionRouter = require('./routes/subscription');
-var feedbackRouter = require('./routes/feedback');
-var authRouter = require('./routes/auth');
-var pdfRouter = require('./routes/pdf');
+var indexRouter = require('./src/routes/index');
+var userRouter = require('./src/routes/user');
+var salonRouter = require('./src/routes/salon');
+var serviceReouter = require('./src/routes/service');
+var addressRouter = require('./src/routes/address');
+var eventRouter = require('./src/routes/event');
+var subscriptionRouter = require('./src/routes/subscription');
+var feedbackRouter = require('./src/routes/feedback');
+var authRouter = require('./src/routes/auth');
+var pdfRouter = require('./src/routes/pdf');
 
 var app = express();
 
@@ -55,8 +55,6 @@ app.use('/user', userRouter);
 app.use('/salon', salonRouter);
 app.use('/service', serviceReouter);
 app.use('/address', addressRouter);
-app.use('/bankdata', bankdataRouter);
-app.use('/creditcard', creditcardRouter);
 app.use('/event', eventRouter);
 app.use('/subscription', subscriptionRouter);
 app.use('/feedback', feedbackRouter)
