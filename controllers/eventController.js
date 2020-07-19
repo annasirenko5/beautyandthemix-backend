@@ -38,6 +38,12 @@ const read = async (req, res) => {
     Event.findById(req.params.id)
         .populate('service')
         .populate('salon')
+        .populate({
+            path:'salon',
+            populate:{
+                path:'location'
+            }
+        })
         .exec()
         .then(event => {
 
@@ -87,6 +93,12 @@ const list = async (req, res) => {
     Event.find({})
         .populate('service')
         .populate('salon')
+        .populate({
+            path:'salon',
+            populate:{
+                path:'location'
+            }
+        })
         .exec()
         .then(events => res.status(200).json(events))
         .catch(error => res.status(500).json({
