@@ -3,7 +3,6 @@ const Address = require('../models/address');
 const Event = require('../models/event');
 const BankData = require('../models/bankdata');
 const Subscription = require('../models/subscription');
-const cron = require('node-cron');
 
 const create = async (req, res) => {
     if(Object.keys(req.body).length === 0) return res.status(400).json({
@@ -64,14 +63,9 @@ const update = async (req, res) => {
             upd.extra_points = usr.extra_points + upd.extra_points;
         }
 
-        if (upd.profilePicture) {
-            upd.profilePicture = upd.profilePicture;
-        }
-
         if (upd.bookings === null) {
             upd.bookings = Array.prototype.concat(upd.bookings, usr.bookings);
         }
-        console.log(upd.bookings);
 
         let user = await User.findByIdAndUpdate(req.params.id, upd, {
             new: true,
