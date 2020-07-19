@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"bntm_database.services"}],"uuid":"0c972f8e1a7e410a9bc2f7c70a40770c"}
