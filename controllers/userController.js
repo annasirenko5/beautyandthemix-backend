@@ -1,7 +1,6 @@
 const User = require('../models/user');
 const Address = require('../models/address');
 const Event = require('../models/event');
-const BankData = require('../models/bankdata');
 const Subscription = require('../models/subscription');
 
 const create = async (req, res) => {
@@ -27,7 +26,6 @@ const read = async (req, res) => {
     try {
         let user = await User.findById(req.params.id)
             .populate('address')
-            .populate('bankData')
             .populate({path: 'bookings', populate: {path: 'service'}})
             .populate('subscription')
             .exec();
@@ -108,7 +106,6 @@ const dlt = async (req, res) => {
         await User.findByIdAndRemove(req.params.id).exec()
             .then(user => {
                 Address.findByIdAndRemove({_id: user.address}).exec();
-                BankData.findByIdAndRemove({_id: user.bankData}).exec();
                 Subscription.findByIdAndRemove({_id: user.subscription}).exec();
                 Event.find({_id: user["bookings"]}).exec()
                     .then(bookings => {
@@ -132,7 +129,6 @@ const list = async(req, res) => {
         let users = await User.find({})
             .populate({path: 'bookings', populate: {path: 'service'}})
             .populate('address')
-            .populate('bankData')
             .populate('subscription')
             .exec();
         return res.status(200).json(users);

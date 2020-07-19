@@ -18,8 +18,6 @@ if (!userArgs[0].startsWith('mongodb')) {
 */
 var async = require('async')
 var Address = require('./models/address')
-var BankData = require('./models/bankdata')
-//var CreditCard = require('./models/creditcard')
 var Salon = require('./models/salon')
 
 
