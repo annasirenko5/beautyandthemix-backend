@@ -71,13 +71,16 @@ const update = async (req, res) => {
 
         if(upd.monthly_pay) {
             if (upd.monthly_pay[0].items) {
+                //check if user already has a payment entry
                 if (usr.monthly_pay.length > 0) {
+                    //concating the item from the request with items from latest payment in user
                     let newItems = Array.prototype.concat(upd.monthly_pay[0].items, usr.monthly_pay[0].items)
                     let mntPay = {
                         _id: usr.monthly_pay[0]._id,
                         month: usr.monthly_pay[0].month,
                         items: newItems
                     }
+                    //concating old payment entry with newly added item with old payments
                     upd.monthly_pay = Array.prototype.concat(mntPay, usr.monthly_pay.splice(1, usr.monthly_pay.length))
                 }else if(upd.monthly_pay[0].month === undefined){
                     upd.monthly_pay[0].month = new Date();
