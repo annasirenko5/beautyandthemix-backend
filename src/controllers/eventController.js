@@ -16,17 +16,17 @@ const create = async (req, res) => {
         message: 'The request body is empty'
     });
 
-    let evnt = req.body;
+    let event = req.body;
 
     // automatically add salon
-    if (evnt.service) {
-        await Service.findById(evnt.service).exec().then(
+    if (event.service) {
+        await Service.findById(event.service).exec().then(
             (service) => {
-                evnt.salon = service.salon;
+                event.salon = service.salon;
             });
     }
 
-    await Event.create(evnt)
+    await Event.create(event)
         .then(event => res.status(201).json(event))
         .catch(error => res.status(500).json({
             error: 'Internal server error',
@@ -46,14 +46,12 @@ const read = async (req, res) => {
         })
         .exec()
         .then(event => {
-
             if (!event) return res.status(404).json({
                 error: 'Not Found',
                 message: `Event not found`
             });
 
             res.status(200).json(event)
-
         })
         .catch(error => res.status(500).json({
             error: 'Internal Server Error',
@@ -110,6 +108,7 @@ const list = async (req, res) => {
 
 const getByService = async (req, res) => {
     try {
+        // get events where attribute 'salon' equals salon in request
         const eventList = await Event.find({service: req.params.service})
             .populate('service')
             .populate('salon')

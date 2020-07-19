@@ -12,9 +12,8 @@ const create = async (req, res) => {
     });
 
     try {
-
         let service = await Service.create(req.body);
-
+        // update salon where the service belongs to to include the service
         let salon = await Salon.update({_id: req.body.salon}, {$push: {services: service._id}});
 
         return res.status(201).json(service);
@@ -71,9 +70,8 @@ const update = async (req, res) => {
 
 const dlt = async (req, res) => {
     try {
-        // remove data asociated with service
-        //remove events for service
         let service = await Service.findById(req.params.id);
+        // getting events and feedbacks belonging to service to delete them
         await Event.find({service: service._id}).exec()
             .then(events => {
                 events.map((event) => {

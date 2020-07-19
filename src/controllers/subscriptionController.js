@@ -20,14 +20,12 @@ const create = async (req, res) => {
 const read   = async (req, res) => {
     Subscription.findById(req.params.id).exec()
         .then(subscription => {
-
             if (!subscription) return res.status(404).json({
                 error: 'Not Found',
                 message: `Movie not found`
             });
 
             res.status(200).json(subscription)
-
         })
         .catch(error => res.status(500).json({
             error: 'Internal Server Error',

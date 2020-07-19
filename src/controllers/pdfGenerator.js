@@ -1,9 +1,9 @@
-const fs = require('fs');
 const PDFDocument = require('pdfkit');
 const Moment = require('moment');
 const User = require('../models/user');
 
 function generateHeader(doc){
+    //generate Header with company data
     doc
         .image("logo.png", 50, 45, { width: 50 })
         .fillColor("#444444")
@@ -28,6 +28,7 @@ function generateFooter(doc) {
 }
 
 function generatePayInfo(doc, user, mntPay) {
+    // generate part with user information for payment
     const address = user.address;
     let total = calcTotal(mntPay.items);
 
@@ -68,6 +69,7 @@ function calcTotal(mntPayItems){
 }
 
 function generateInvoiceTable(doc, user, mntPay) {
+    // declare i here for subtotal position
     let i,
         invoiceTableTop = 330;
     let total = calcTotal(mntPay.items);
@@ -84,6 +86,7 @@ function generateInvoiceTable(doc, user, mntPay) {
     generateHr(doc, invoiceTableTop + 20);
     doc.font("Helvetica");
 
+    // adding new row for each element in payment
     for (i = 0; i < mntPay.items.length; i++) {
         const mntPayItem = mntPay.items[i];
         const position = invoiceTableTop + (i + 1) * 30;
@@ -92,9 +95,9 @@ function generateInvoiceTable(doc, user, mntPay) {
             position,
             mntPayItem.name,
         `${mntPayItem.price} €`
-    );
-    generateHr(doc, position + 20);
-}
+        );
+        generateHr(doc, position + 20);
+    }
 
     const subtotalPosition = invoiceTableTop + (i + 1) * 30;
     doc.font("Helvetica-Bold");
@@ -106,7 +109,7 @@ function generateInvoiceTable(doc, user, mntPay) {
     );
 
 }
-
+// horizontal line for better visualization
 function generateHr(doc, y) {
     doc
         .strokeColor("#aaaaaa")
@@ -116,6 +119,7 @@ function generateHr(doc, y) {
         .stroke();
 }
 
+//iterating through monthly_pay of user to get the month specified in request
 function getPayByMonth(user, monthYear){
     for (let i = 0; i < user.monthly_pay.length; i++){
         let userMntPay = user.monthly_pay[i].month;
@@ -140,15 +144,9 @@ function createInvoice(req, res) {
             generatePayInfo(doc, user, userMntPay);
             generateInvoiceTable(doc, user, userMntPay);
             generateFooter(doc);
-
-            //let dateFormat = Moment(new Date(user.monthly_pay[0].month)).format('LL')
-
-            //doc.pipe(fs.createWriteStream('http://localhost:3000/mybills/invoice.pdf'))
-            //doc.pipe(fs.createWriteStream('./invoices/' + user._id + "+" + dateFormat + '.pdf'));
-            doc.pipe(res);
+            doc.pipe(res); // sending the document in the response
             doc.end();
     })
-
 }
 
 module.exports = {

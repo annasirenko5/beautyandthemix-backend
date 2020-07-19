@@ -7,7 +7,6 @@ const create = async (req, res) => {
     });
 
     try {
-
         let address = await Address.create(req.body);
 
         return res.status(201).json(address);
@@ -44,7 +43,6 @@ const update = async (req, res) => {
             message: 'The request body is empty'
         });
     }
-    //update Address?
 
     try {
         let address = await Address.findByIdAndUpdate(req.params.id, req.body, {

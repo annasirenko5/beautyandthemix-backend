@@ -76,7 +76,6 @@ const update = async (req, res) => {
 const dlt = async (req, res) => {
     try {
         let salon = await Salon.findById(req.params.id);
-        console.log(salon);
         await Feedback.find({_id: salon["reviews"]}).exec()
             .then(reviews => {
                 for (let i = 0; i < reviews.length; i++) {

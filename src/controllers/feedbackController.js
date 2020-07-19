@@ -37,14 +37,12 @@ const read   = async (req, res) => {
         .populate('service')
         .exec()
         .then(feedback => {
-
             if (!feedback) return res.status(404).json({
                 error: 'Not Found',
                 message: `Movie not found`
             });
 
             res.status(200).json(feedback)
-
         })
         .catch(error => res.status(500).json({
             error: 'Internal Server Error',
@@ -52,7 +50,6 @@ const read   = async (req, res) => {
         }));
 
 };
-
 
 const remove = async(req, res) => {
     Feedback.findByIdAndRemove(req.params.id).exec()
