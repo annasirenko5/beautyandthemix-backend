@@ -22,7 +22,7 @@
     "mongoose-schema-extend": "^0.2.2",
     "morgan": "~1.9.1",
     "pdfkit": "^0.11.0",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "node-cron": "^2.0.3"
   },
   "devDependencies": {
